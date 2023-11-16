@@ -1,6 +1,9 @@
 **Ramas Principales**
 Rama main
-La rama main representa la rama principal de desarrollo. Es la rama que contiene la última versión estable del software y se considera la versión de producción. La integración de código en esta rama se realizará después de una revisión exhaustiva y aprobación.
+La rama main representa la rama principal de desarrollo. Es la rama que contiene la última versión estable del software y se considera la versión de producción. La integración de código en esta rama se realizará después de una revisión exhaustiva y aprobación. Solo aceptará PR de Develop y tendrá que pasar la revisión de todos los miembros del equipo. 
+
+Rama Develop
+En esta rama se almacenará la integración de las diferentes features. La integración de código en esta rama se realizará después de una revisión exhaustiva y aprobación. Es necesario que la PR se aprobada por dos reviewers que no se el propio solicitante.
 
 **Ramas de Funcionalidad**
 Creación de Ramas
