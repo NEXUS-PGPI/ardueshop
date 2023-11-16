@@ -1,0 +1,28 @@
+**Ramas Principales**
+Rama main
+La rama main representa la rama principal de desarrollo. Es la rama que contiene la última versión estable del software y se considera la versión de producción. La integración de código en esta rama se realizará después de una revisión exhaustiva y aprobación.
+
+**Ramas de Funcionalidad**
+Creación de Ramas
+Las nuevas funcionalidades se desarrollarán en ramas separadas, basadas en la rama main. El nombre de la rama seguirá el siguiente formato: /feature/"ID de Issue"-"Nombre de Issue". Por ejemplo, para la implementación de una nueva característica con el ID de issue 123 y el nombre "nueva-caracteristica", la rama se llamaría /feature/123-nueva-caracteristica.
+
+**Pull Requests**
+Para cada nueva funcionalidad, se creará una Pull Request (PR) que solicitará la integración de la rama de funcionalidad en la rama main. Se seguirá una plantilla predefinida para las PR para garantizar la consistencia en la información proporcionada.
+
+**Plantilla de Pull Request**
+# Pull Request
+## Descripción
+[Descripción detallada de la funcionalidad o corrección implementada]
+## Issue relacionado
+[Enlace al issue relacionado]
+## Cambios Realizados
+[Listado de los cambios realizados]
+## Capturas de Pantalla
+[Si aplica, incluir capturas de pantalla]
+## Checklist
+- [ ] He probado localmente los cambios.
+- [ ] La documentación se ha actualizado según sea necesario.
+- [ ] Todos los revisores han aprobado el código.
+
+**Revisiones y Aprobaciones**
+Antes de que una PR sea fusionada en la rama main, se requieren al menos tres revisiones de miembros del equipo que no sean el solicitante. Todos los miembros del equipo tienen el rol de revisores y deben asegurarse de que el código cumpla con los estándares de calidad del proyecto.
