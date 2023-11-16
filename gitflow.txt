@@ -8,7 +8,7 @@ En esta rama se almacenará la integración de las diferentes features. La integ
 Las nuevas funcionalidades se desarrollarán en ramas separadas, basadas en la rama main. El nombre de la rama seguirá el siguiente formato: /feature/"ID de Issue"-"Nombre de Issue". Por ejemplo, para la implementación de una nueva característica con el ID de issue 123 y el nombre "nueva-caracteristica", la rama se llamaría /feature/123-nueva-caracteristica.
 
 **Pull Requests**
-Para cada nueva funcionalidad, se creará una Pull Request (PR) que solicitará la integración de la rama de funcionalidad en la rama main. Se seguirá una plantilla predefinida para las PR para garantizar la consistencia en la información proporcionada.
+Para cada nueva funcionalidad, se creará una Pull Request (PR) que solicitará la integración de la rama de funcionalidad en la rama develop. Se seguirá una plantilla predefinida para las PR para garantizar la consistencia en la información proporcionada.
 
 **Plantilla de Pull Request**
 # Pull Request
