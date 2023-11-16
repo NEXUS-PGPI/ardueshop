@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'authentication'
     "bootstrap5",
     "base",
+    'authentication'
 ]
 
 MIDDLEWARE = [
