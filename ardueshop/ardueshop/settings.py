@@ -22,6 +22,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = "django-insecure-t$#aj+y!1q)xm2t4ml2p1zeo+b(=4nu10t3cc(i24ir2)rx1)&"
 
+AUTHENTICATION_BACKENDS = [ "authentication.backends.EmailBackend" ]
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -40,6 +42,15 @@ INSTALLED_APPS = [
     "bootstrap5",
     "base",
     'authentication'
+]
+
+CONTEXT_PROCESSORS = [
+    "django.contrib.auth.context_processors.auth",
+    "django.template.context_processors.debug",
+    "django.template.context_processors.media",
+    "django.template.context_processors.static",
+    "django.template.context_processors.tz",
+    "django.contrib.messages.context_processors.messages",
 ]
 
 MIDDLEWARE = [
