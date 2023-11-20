@@ -1,8 +1,6 @@
-from django.http import HttpResponse
 from django.shortcuts import redirect, render
+from django.contrib.auth import login, logout, authenticate
 from .forms import ClientCreationForm, ClientLoginForm
-from django.contrib.auth import login, logout
-from .backends import EmailBackend
 
 # Create your views here.
 
@@ -11,11 +9,12 @@ def signup_view(request):
       form = ClientCreationForm(request.POST)
       if form.is_valid():
           # save user to database
+          form.cleaned_data['email'] = form.cleaned_data.get('username')
           form.save()
           # log user in
-          email = form.cleaned_data.get('email')
+          username = form.cleaned_data.get('username')
           password = form.cleaned_data.get('password1')
-          user = EmailBackend().authenticate(request=request,username=email, password=password)
+          user = authenticate(request=request,username=username, password=password)
           login(request, user)
           return redirect('home')
   else:
@@ -24,10 +23,12 @@ def signup_view(request):
 
 def login_view(request):
   if request.method == 'POST':
-      form = ClientLoginForm(request.POST)
+      form = ClientLoginForm(request=request, data=request.POST)
       if form.is_valid():
           # log user in
-          user = EmailBackend().authenticate(request=request,username=form.cleaned_data.get('email'), password=form.cleaned_data.get('password'))
+          username = form.cleaned_data.get('username')
+          password = form.cleaned_data.get('password')
+          user = authenticate(request=request,username=username, password=password)
           login(request, user)
           return redirect('home')
   else:

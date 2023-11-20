@@ -7,7 +7,7 @@ from django import forms
 
 class ClientCreationForm(UserCreationForm):
 
-  email = forms.EmailField(
+  username = forms.EmailField(
 		max_length=254,
 		widget=forms.EmailInput(
 			attrs={
@@ -41,11 +41,12 @@ class ClientCreationForm(UserCreationForm):
 
   class Meta:
     model = User
-    fields = ('email', 'password1', 'password2')
+    fields = ('username', 'password1', 'password2')
 
-class ClientLoginForm(forms.Form):
 
-  email = forms.EmailField(
+class ClientLoginForm(AuthenticationForm):
+
+  username = forms.EmailField(
     max_length=254,
 		widget=forms.EmailInput(
 			attrs={
@@ -69,4 +70,4 @@ class ClientLoginForm(forms.Form):
 
   class Meta:
     model = User
-    fields = ('email', 'password')
+    fields = ('username', 'password')
