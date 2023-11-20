@@ -10,6 +10,15 @@
             <div >
                 <img src="{{ product.image.url }}" alt="" style="display:block;" width="100%"">
             </div>
+
+            {% if product.category  %}
+              <div>
+                <p>Categoría: {{ product.category }}</p>
+              </div>
+            {% endif %}
+            <div>
+              <h2>{{ product.price|floatformat:2 }} €</h2>
+            </div>
         </td>
         <td style="width:60%">
             <h1>{{ product.name }}</h1>
