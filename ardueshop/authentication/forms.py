@@ -9,6 +9,7 @@ class ClientCreationForm(UserCreationForm):
 
   username = forms.EmailField(
 		max_length=254,
+    label="Correo electrónico",
 		widget=forms.EmailInput(
 			attrs={
 				"placeholder": "Email",
@@ -30,7 +31,7 @@ class ClientCreationForm(UserCreationForm):
   )
 
   password2 = forms.CharField(
-    label="Confirmación Contraseña",
+    label="Confirme la contraseña",
     widget=forms.PasswordInput(
       attrs={
         "placeholder": "Contraseña",
@@ -48,6 +49,7 @@ class ClientLoginForm(AuthenticationForm):
 
   username = forms.EmailField(
     max_length=254,
+    label="Correo electrónico",
 		widget=forms.EmailInput(
 			attrs={
 				"placeholder": "Email",

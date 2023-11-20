@@ -2,10 +2,10 @@
 {% extends 'base/base.html' %}
 
 {% block content %}
-  <h2>Sign Up</h2>
+  <h2>Registrarse</h2>
   <form action="/auth/signup/" method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Sign Up</button>
+    <button type="submit">Aceptar</button>
   </form>
 {% endblock %}
