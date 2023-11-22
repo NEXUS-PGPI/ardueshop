@@ -1,0 +1,62 @@
+{% extends "base/base.html" %}
+{% load static %}
+{% block title %}ArduEshop{% endblock %}
+{% block content %}
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Nombre</th>
+            <th scope="col">Categoría</th>
+            <th scope="col">Imagen</th>
+            <th scope="col">Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+            {% for product in products %}
+                <tr class="producto" data-category="{{ product.category.name }}">
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.category.name }}</td>
+                    <td><img src="{{ product.image.url }}" alt="{{ product.name }}" style="max-width: 100px;"></td>
+                    <td><a href="/catalogue/{{ product.id }}">Ver</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var dropdownItems = document.querySelectorAll('.dropdown-item');
+            var selectedCategoryElement = document.getElementById('dropdownMenuLink');
+
+            dropdownItems.forEach(function(item) {
+                item.addEventListener('click', function(event) {
+                    var opcionSeleccionada = event.target.getAttribute('data-category');
+                    alert(opcionSeleccionada);
+                    if (opcionSeleccionada) {
+                        selectedCategoryElement.textContent = opcionSeleccionada;
+
+                        // Ocultar todos los productos
+                        var productos = document.querySelectorAll('.producto');
+                        productos.forEach(function(producto) {
+                            producto.style.display = "none";
+                        });
+
+                        // Mostrar productos de la categoría seleccionada
+                        var productosCategoria;
+                        if (opcionSeleccionada == 'Todas') {
+                            productosCategoria = productos;  // Si se seleccionó 'Todas', mostrar todos los productos
+                        } else {
+                            productosCategoria = document.querySelectorAll('.producto[data-category="' + opcionSeleccionada + '"]');
+                        }
+                        productosCategoria.forEach(function(productoCategoria) {
+                            productoCategoria.style.display = "table-row";
+                        });
+                    } else {
+                        console.error("No se encontró el elemento con id 'opcionSeleccionada'");
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}
