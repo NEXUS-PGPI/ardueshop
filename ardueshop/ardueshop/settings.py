@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     "bootstrap5",
     "base",
-    'authentication'
+    'authentication',
+    "product"
 ]
 
 CONTEXT_PROCESSORS = [
@@ -51,8 +52,7 @@ CONTEXT_PROCESSORS = [
     "django.template.context_processors.media",
     "django.template.context_processors.static",
     "django.template.context_processors.tz",
-    "django.contrib.messages.context_processors.messages",
-    "product",
+    "django.contrib.messages.context_processors.messages"
 ]
 
 MIDDLEWARE = [
