@@ -10,6 +10,19 @@
             <th scope="col">Categoría</th>
             <th scope="col">Imagen</th>
             <th scope="col">Acciones</th>
+             <div class="dropdown show">
+                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Todas
+                    </a>
+
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <a class="dropdown-item" href="#" data-category="Todas">Todas</a>
+                        {% for category in categories %}
+                            <a class="dropdown-item" href="#" data-category="{{ category.name }}">{{ category.name }}</a>
+                        {% endfor %}
+                    </div>
+             </div>
         </tr>
         </thead>
         <tbody>
@@ -17,7 +30,7 @@
                 <tr class="producto" data-category="{{ product.category.name }}">
                     <td>{{ product.name }}</td>
                     <td>{{ product.category.name }}</td>
-                    <td><img src="{{ product.image.url }}" alt="{{ product.name }}" style="max-width: 100px;"></td>
+                    <td><img src="{{ product.image.url }}" alt="{{ product.name }}" style="max-width: 300px;"></td>
                     <td><a href="/catalogue/{{ product.id }}">Ver</a></td>
                 </tr>
             {% endfor %}
@@ -32,7 +45,7 @@
             dropdownItems.forEach(function(item) {
                 item.addEventListener('click', function(event) {
                     var opcionSeleccionada = event.target.getAttribute('data-category');
-                    alert(opcionSeleccionada);
+
                     if (opcionSeleccionada) {
                         selectedCategoryElement.textContent = opcionSeleccionada;
 
