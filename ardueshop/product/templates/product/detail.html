@@ -1,0 +1,41 @@
+{% extends "base/base.html" %}
+{% load static %}
+{% block title %}ArduEshop{% endblock %}
+{% block content %}
+
+<table style="width:100%">
+    <tbody>
+      <tr>
+        <td rowspan="3" style="width:20%">
+            <div >
+                <img src="{{ product.image.url }}" alt="" style="display:block;" width="100%"">
+            </div>
+
+            {% if product.category  %}
+              <div>
+                <p>Categoría: {{ product.category }}</p>
+              </div>
+            {% endif %}
+            <div>
+              <h2>{{ product.price|floatformat:2 }} €</h2>
+            </div>
+        </td>
+        <td style="width:60%">
+            <h1>{{ product.name }}</h1>
+        </td>
+        <td style="width:20%"> Cesta </td>
+      </tr>
+      <tr>
+        <td colspan="2"> {{ product.description }}</td>
+      </tr>
+      <tr>
+        <td>
+            <h3>Da tu opinión sobre el producto</h3>
+            <textarea name="comment" id="mock" cols="30" rows="10"></textarea>
+        </td>
+        <td>Otras opiniones</td>
+      </tr>
+    </tbody>
+</table>
+
+{% endblock %}
