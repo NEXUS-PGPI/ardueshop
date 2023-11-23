@@ -12,13 +12,25 @@
         <div class="col-md-4">
             <h1>{{ product.name }}</h1>
             {% if product.category %}
+
             <div class="mt-3">
                 <p>Categoría: {{ product.category }}</p>
             </div>
             {% endif %}
             
-            <div>
-                <h2>{{ product.price|floatformat:2 }} €</h2>
+            <div class="d-flex justify-content-between mb-2">
+                <h2 class="mb-0">{{ product.price|floatformat:2 }} €</h2>
+                {% if product.stock > 0 %}
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="fas fa-check-circle text-success"></i>
+                        <h2 class="text-success mb-0">Disponible</h2>
+                    </div>
+                {% else %}
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="fas fa-times-circle text-danger"></i>
+                        <h2 class="text-danger mb-0">Agotado</h2>
+                    </div>
+                {% endif %}
             </div>
             
             <form method="post" action="">
