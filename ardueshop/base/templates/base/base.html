@@ -6,7 +6,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
 
-      <!-- Add a link to Google Fonts to import the desired font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
@@ -23,12 +22,10 @@
       h5,
       h6 {
           font-family: 'Roboto', sans-serif;
-          /* Adjust font weights and other styles if needed */
-          /* font-weight: 700; */
       }
-      /* Add other styles here */
   </style>
 
+  {% load static %}
   {% load bootstrap5 %}
   {% bootstrap_css %}
   {% bootstrap_javascript %}
@@ -41,12 +38,18 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="/catalogue">Catálogo</a>
+          </li>
+        </ul>
+        <ul class="navbar-nav ml-auto">
           {% if user.is_authenticated %}
             <li class="nav-item">
               <a class="nav-link" href="#">
-                  <strong>{{ user.username }}</strong>
+                <strong>{{ user.username }}</strong>
               </a>
+            </li>
             <li class="nav-item">
               <a class="nav-link" href="/auth/logout">Cerrar Sesion</a>
             </li>
@@ -59,9 +62,19 @@
               <a class="nav-link" href="/auth/signup">Registrarse</a>
             </li>
           {% endif %}
-        <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link" href="/catalogue">Catálogo</a>
+            <a class="nav-link" href="/cart">
+              <img src="{% static 'img/cart.png' %}" alt="Cart" width="40" height="40">
+              <span class="badge bg-secondary">
+                {% with total_items=cart|length %}
+                  {% if total_items > 0 %}
+                    {{ total_items }}
+                  {% else %}
+                    0
+                  {% endif %}
+                {% endwith %}
+              </span>              
+            </a>
           </li>
         </ul>
       </div>
