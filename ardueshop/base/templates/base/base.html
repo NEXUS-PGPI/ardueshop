@@ -21,7 +21,8 @@
       h3,
       h4,
       h5,
-      h6 {
+      h6,
+      a {
           font-family: 'Roboto', sans-serif;
           /* Adjust font weights and other styles if needed */
           /* font-weight: 700; */
@@ -32,11 +33,14 @@
   {% load bootstrap5 %}
   {% bootstrap_css %}
   {% bootstrap_javascript %}
+  {% load static %}
 </head>
 <body>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-      <a class="navbar-brand" href="/">ArduEshop</a>
+      <a class="navbar-brand" href="/">
+        <img src="{% static 'LogoArduEshop.png' %}" alt="US" class="img-fluid col-md-3">
+      </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -47,6 +51,7 @@
               <a class="nav-link" href="#">
                   <strong>{{ user.username }}</strong>
               </a>
+            </li>
             <li class="nav-item">
               <a class="nav-link" href="/auth/logout">Cerrar Sesion</a>
             </li>
@@ -71,5 +76,8 @@
     {% block content %}
     {% endblock %}
   </div>
+  <footer>
+    <img src="{% static 'US-marca-digital_0.png' %}" alt="US" class="img-fluid col-md-2">
+  </footer>
 </body>
 </html>

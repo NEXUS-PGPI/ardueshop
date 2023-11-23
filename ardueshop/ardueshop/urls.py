@@ -25,5 +25,5 @@ urlpatterns = [
     path('auth/', include('authentication.urls')),
     path('product/', include('product.urls', namespace='product')),
     path('catalogue/', include('product.urls', namespace='catalogue'))
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
