@@ -2,27 +2,53 @@
 {% load static %}
 {% block title %}ArduEshop{% endblock %}
 {% block content %}
-<style>
-    
+
+<style> 
     .card:hover {
         transform: scale(1.05);
         transition: transform 0.3s ease;
         cursor: pointer;
     }
 </style>
+
 <div class="container mt-4">
     <div class="row">
         <div class="col-md-12">
             <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Seleccione una categoría
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                    <a class="dropdown-item" href="#" data-category="Todas" onclick="filterProducts('Todas')">Todas</a>
-                    {% for category in categories %}
-                    <a class="dropdown-item" href="#" data-category="{{ category.name }}" onclick="filterProducts('{{ category.name }}')">{{ category.name }}</a>
-                    {% endfor %}
-                </div>
+                {% if search %}
+                    <div class="d-flex align-items-center gap-2">
+                        <p class="mb-0">Resultados de la búsqueda para: </p>
+                        {% if product_name %}
+                            <span class="badge bg-secondary text-light">Nombre: {{ product_name }}</span>
+                        {% endif %}
+                        {% if product_category %}
+                            <span class="badge bg-secondary text-light">Categoría: {{ product_category }}</span>
+                        {% endif %}
+                        {% if min_price %}
+                            <span class="badge bg-secondary text-light">Precio mínimo: {{ min_price }} €</span>
+                        {% endif %}
+                        {% if max_price %}
+                            <span class="badge bg-secondary text-light">Precio máximo: {{ max_price }} €</span>
+                        {% endif %}
+                        {% if not product_name and not product_category and not min_price and not max_price %}
+                            <span class="badge bg-secondary text-light">No se han aplicado filtros</span>
+                        {% endif %}
+                        <a class="link-dark" href="{% url 'home' %}">Volver a buscar</a>
+                    </div>
+                {% else %}
+                    <h3 class="mb-4">Catálogo de productos</h3>
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuLink" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        Seleccione una categoría
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <a class="dropdown-item" href="#" data-category="Todas" onclick="filterProducts('Todas')">Todas</a>
+                        {% for category in categories %}
+                        <a class="dropdown-item" href="#" data-category="{{ category.name }}"
+                            onclick="filterProducts('{{ category.name }}')">{{ category.name }}</a>
+                        {% endfor %}
+                    </div>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -37,6 +63,10 @@
                     <h6>{{ product.price }} €</h6>
                 </div>
             </div>
+        </div>
+        {% empty %}
+        <div class="col-md-12">
+            <p>No se han encontrado productos</p>
         </div>
         {% endfor %}
     </div>

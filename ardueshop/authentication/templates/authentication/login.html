@@ -1,11 +1,12 @@
-
 {% extends 'base/base.html' %}
 
 {% block content %}
-  <h2>Inicio de Sesion</h2>
+<div class="container mt-4">
+  <h2>Iniciar Sesión</h2>
   <form action="/auth/login/" method="post">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">Aceptar</button>
   </form>
+</div>
 {% endblock %}

@@ -17,13 +17,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
-from django.conf.urls.static import static 
+from django.conf.urls.static import static
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("base.urls")),
-    path('auth/', include('authentication.urls')),
-    path('product/', include('product.urls', namespace='product')),
-    path('catalogue/', include('product.urls', namespace='catalogue'))
+    path("auth/", include("authentication.urls")),
+    path("product/", include("product.urls", namespace="product")),
+    path("catalogue/", include("product.urls", namespace="catalogue")),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-
