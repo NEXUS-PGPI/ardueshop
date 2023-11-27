@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     "bootstrap5",
     "base",
     'authentication',
-    "product"
+    "product",
+    "cart",
 ]
 
 CONTEXT_PROCESSORS = [
@@ -78,6 +79,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "cart.context_processors.cart"
             ],
         },
     },
@@ -138,6 +140,7 @@ USE_TZ = True
 STATIC_URL = "static/"
 
 STATICFILES_DIRS = [
+
     BASE_DIR / "static",
 ]
 
@@ -145,3 +148,5 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+CART_SESSION_ID = 'cart'
