@@ -36,36 +36,36 @@
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
       <a class="navbar-brand" href="/">
-        <img src="{% static 'LogoArduEshop.png' %}" alt="US" class="img-fluid col-md-3">
+        <img src="{% static 'LogoArduEshop.png' %}" alt="US" class="img-fluid col-md-3" style="width: 200px;">
       </a>
+
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav me-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="/catalogue">Catálogo</a>
-          </li>
-        </ul>
+        <li class="nav-item">
+          <a class="nav-link" href="/catalogue">Catálogo</a>
+        </li>
+      </ul>
         <ul class="navbar-nav ml-auto">
           {% if user.is_authenticated %}
-            <li class="nav-item">
-              <a class="nav-link" href="#">
+            <div class="d-flex align-items-center">
+              <p class="nav-link m-0 me-3">
                 <strong>{{ user.username }}</strong>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/auth/logout">Cerrar Sesion</a>
-            </li>
+              </p>
+              <a class="btn btn-secondary me-3" href="/auth/logout">Cerrar Sesion</a>
+            </div>
           {% endif %}
           {% if not user.is_authenticated %}
-            <li class="nav-item">
-              <a class="nav-link" href="/auth/login">Iniciar Sesion</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/auth/signup">Registrarse</a>
-            </li>
+            <div class="d-flex align-items-center">
+              <a class="btn btn-secondary me-3" href="/auth/login">Iniciar Sesion</a>
+              <a class="btn btn-secondary me-3" href="/auth/signup">Registrarse</a>
+            </div>
           {% endif %}
+          <div class="d-flex align-items-center">
+            <a class="btn btn-light me-3" href="/order/create">Compra rápida</a>
+          </div>
           <li class="nav-item">
             <a class="nav-link" href="/cart">
               <img src="{% static 'img/cart.png' %}" alt="Cart" width="40" height="40">
