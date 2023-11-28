@@ -2,14 +2,14 @@
 {% load static %}
 
 {% block title %}
-  Tu carrito de compras
+  Tu cesta de la compra
 {% endblock %}
 
 {% block content %}
-  <div class="container">
+  <div class="container mt-4">
     <div class="row">
       <div class="col-12 text-center">
-        <h1>Tu carrito de compras</h1>
+        <h1>Tu cesta de la compra</h1>
       </div>
     </div>
     <div class="row">
@@ -49,19 +49,23 @@
                       {% csrf_token %}
                     </form>
                   </td>
-                  <td class="num">{{ item.price }}€</td>
-                  <td class="num">{{ item.total_price }}€</td>
+                  <td class="num">{{ item.price }} €</td>
+                  <td class="num">{{ item.total_price }} €</td>
                 </tr>
               {% endwith %}
             {% endfor %}
             <tr class="table-secondary">
               <td colspan="5" class="text-end">Total</td>
-              <td class="num">{{ cart.get_total_price }}€</td>
+              <td class="num">{{ cart.get_total_price }} €</td>
             </tr>
           </tbody>
         </table>
         <p class="text-end">
-          <a href="{% url "product:catalogue" %}" class="btn btn-success">Continuar comprando</a>
+          <a href="{% url "product:catalogue" %}" class="btn btn-primary">Continuar comprando</a>
+          {% if cart %}
+            <a href="{% url "order:order_create" %}" class="btn btn-success">Realizar pedido</a>
+          {% endif %}
+
         </p>
       </div>
     </div>
