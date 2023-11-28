@@ -63,9 +63,11 @@
               <a class="btn btn-secondary me-3" href="/auth/signup">Registrarse</a>
             </div>
           {% endif %}
-          <div class="d-flex align-items-center">
-            <a class="btn btn-light me-3" href="/order/create">Compra rápida</a>
-          </div>
+          {% if cart|length > 0 %}
+            <div class="d-flex align-items-center">
+              <a class="btn btn-light me-3" href="/order/create">Compra rápida</a>
+            </div>
+          {% endif %}
           <li class="nav-item">
             <a class="nav-link" href="/cart">
               <img src="{% static 'img/cart.png' %}" alt="Cart" width="40" height="40">
