@@ -1,0 +1,31 @@
+||| BRANCH STRATEGY |||
+
+**Main branch**
+The main branch represents the primary development branch. It is the branch that contains the latest stable version of the software and is considered the production version. Code integration into this branch will occur after a thorough review and approval process. It will only accept pull requests from the Develop branch and must undergo review by four reviewers who are not the requester.
+
+**Develop  branch**
+This branch will store the integration of different features. Code integration into this branch will occur after a thorough review and approval process. Pull requests need to be approved by two reviewers who are not the requester.
+
+**Feature branches**
+New functionalities will be developed in separate branches based on the Develop branch. The branch name will follow the following format: /feature/"Issue ID"-"Issue Name". For example, for the implementation of a new feature with the issue ID 123 and the name "new-feature," the branch would be named /feature/123-new-feature.
+
+
+||| PULL REQUEST STRATEGY |||
+
+**Pull Requests**
+For each new functionality, a Pull Request (PR) will be created to request the integration of the feature branch into the Develop branch. A predefined template for PRs will be followed to ensure consistency in the provided information.
+
+**Pull Request Template**
+## Description
+[Detailed description of the implemented functionality or correction]
+
+## Related Issue
+[Link to the related issue]
+
+## Screenshots
+[If applicable, include screenshots]
+
+## Checklist
+- [ ] I have tested the changes locally.
+- [ ] Documentation has been updated as needed.
+- [ ] All necessary reviewers have approved the code.

@@ -2,14 +2,7 @@
 {% load static %}
 {% block title %}ArduEshop{% endblock %}
 {% block content %}
-<style>
-    
-    .card:hover {
-        transform: scale(1.05);
-        transition: transform 0.3s ease;
-        cursor: pointer;
-    }
-</style>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
 <div class="container mt-4">
     <div class="row">
         <div class="col-md-12">
@@ -32,7 +25,7 @@
             <div class="card">
                 <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
                 <div class="card-body">
-                    <h5 class="card-title mb-0">{{ product.name }}</h5>
+                    <h5 class="card-title mb-0"><a href="/product/{{ product.id }}">{{ product.name }}</a></h5>
                     <p class="card-text">{{ product.category.name }}</p>
                     <div class="d-flex justify-content-between">
                         <h6 class="mb-0">{{ product.price }} €</h6>
@@ -54,18 +47,93 @@
         </div>
         {% endfor %}
     </div>
+    <table class="table" id="productTable">
+        <thead>
+            <tr>
+                <th>Imagen</th>
+                <th>Nombre</th>
+                <th>Categoría</th>
+                <th>Precio</th>
+                <th>Detalles</th>
+                <th style="width: 13%;"></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in products %}
+            <tr data-category="{{ product.category.name }}">
+                <td><img src="{{ product.image.url }}" class="img-thumbnail" alt="{{ product.name }}"></td>
+                <td>{{ product.name }}</td>
+                <td>{{ product.category.name }}</td>
+                <td>{{ product.price }} €</td>
+                <td>
+                    <button class="btn btn-primary details-button" data-product-id="{{ product.id }}">Detalles</button>
+                </td>
+                <td>
+                    <form class="add-to-cart-form" action="{% url 'cart:cart_add' product.id %}" method="post">
+                        {% csrf_token %}
+                        <div class="input-group mt-2">
+                            <label class="input-group-text" for="quantity_{{ product.id }}">Cantidad</label>
+                            <input type="number" class="form-control" id="quantity_{{ product.id }}" name="quantity" min="1" value="1">
+                        </div>
+                        <button type="submit" class="btn btn-success mt-2">Añadir a la Cesta</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script>
-    function filterProducts(category) {
-        var productCards = document.querySelectorAll('.product-card');
-        productCards.forEach(function(card) {
-            if (category === 'Todas' || card.dataset.category === category) {
-                card.style.display = 'block';
-            } else {
-                card.style.display = 'none';
+    $(document).ready(function() {
+        var table = $('#productTable').DataTable();
+
+        $('#categoryFilter').on('change', function() {
+            var selectedCategory = $(this).val();
+
+            table.search('').columns().search('').draw(); // Limpiar los filtros existentes
+
+            if (selectedCategory) {
+                table.column(2).search(selectedCategory).draw();
             }
         });
-    }
+
+        // Event listener for details button
+        $('#productTable tbody').on('click', '.details-button', function() {
+            var productId = $(this).data('product-id');
+            window.location.href = '/product/' + productId;
+        });
+
+        // Toggle form visibility and handle cart submission
+        $('#productTable tbody').on('click', '.details-button', function() {
+            var $form = $(this).closest('tr').find('.add-to-cart-form');
+            $form.toggle();
+        });
+
+        // Submit form to add to cart
+         // Submit form to add to cart
+        $('#productTable').on('submit', '.add-to-cart-form', function(e) {
+            e.preventDefault(); // Evita el envío del formulario por defecto
+
+            var form = $(this);
+
+            $.ajax({
+                type: form.attr('method'),
+                url: form.attr('action'),
+                data: form.serialize(),
+                success: function(response) {
+                    // Handle success (e.g., show a success message)
+                    console.log('Product added to cart successfully');
+                    location.reload(); // Recarga la página
+                },
+                error: function(error) {
+                    // Handle errors (e.g., show an error message)
+                    console.error('Error adding product to cart');
+                }
+            });
+        });
+    });
 </script>
 {% endblock %}
