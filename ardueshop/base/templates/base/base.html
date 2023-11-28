@@ -31,10 +31,13 @@
       a {
           font-family: 'Roboto', sans-serif;
       }
+
+      main {
+          flex: 1;
+      }
   
   </style>
 
-  {% load static %}
   {% load bootstrap5 %}
   {% bootstrap_css %}
   {% bootstrap_javascript %}
@@ -95,6 +98,7 @@
         </ul>
       </div>
     </nav>
+    <main>
       {% block content %}
       {% endblock %}
   </main>
