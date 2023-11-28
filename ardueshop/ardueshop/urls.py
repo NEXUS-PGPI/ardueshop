@@ -22,13 +22,15 @@ from django.conf.urls.static import static
 urlpatterns = (
     [
         path("admin/", admin.site.urls),
-        path("", include("base.urls")),
         path("auth/", include("authentication.urls")),
         path("product/", include("product.urls", namespace="product")),
         path("catalogue/", include("product.urls", namespace="catalogue")),
         path("cart/", include("cart.urls", namespace="cart")),
         path("order/", include("order.urls", namespace="order")),
         path("payment/", include("payment.urls", namespace="payment")),
+        path(
+            "", include("base.urls")
+        ),  # This path must be the last one because it will match any URL
     ]
     + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

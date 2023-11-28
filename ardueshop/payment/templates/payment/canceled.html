@@ -5,8 +5,14 @@
 
 {% block content %}
 
-    <div class="container">
-        Pago cancelado
+<div class="container mt-4">
+    <div class="card text-center">
+        <div class="card-body">
+            <h1 class="card-title">¡Pago cancelado!</h1>
+            <p class="card-text">Tu pago ha sido cancelado.</p>
+            <a href="{% url "product:catalogue" %}" class="btn btn-primary">Volver a la tienda</a>
+        </div>
     </div>
+</div>
 
 {% endblock %}

@@ -16,5 +16,7 @@ class OrderAdmin(admin.ModelAdmin):
         "city",
         "paid",
         "shipping_status",
+        "created",
+        "updated",
     ]
     inlines = [OrderItemInline]
