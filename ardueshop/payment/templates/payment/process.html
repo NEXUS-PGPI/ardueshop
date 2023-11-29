@@ -1,0 +1,29 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block title %}Confirmar y pagar{% endblock %}
+
+{% block content %}
+
+    <div class="container mt-4">
+        <h1 class="mb-4">Confirmar y pagar</h1>
+        <div class="mb-4">
+            <h3>Tu pedido:</h3>
+            <ul class="list-group">
+              {% for item in order.items.all %}
+                <li class="list-group-item">
+                    {{ item.quantity }}x {{ item.product.name }}
+                    <span class="float-end">{{ item.get_cost }} €</span>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+          <form action="{% url "payment:process" %}" method="post">
+            <input class="btn btn-primary" type="submit" value="Pagar">
+            {% csrf_token %}
+          </form>
+
+    </div>
+
+{% endblock %}

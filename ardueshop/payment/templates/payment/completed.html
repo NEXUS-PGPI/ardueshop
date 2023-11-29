@@ -1,0 +1,19 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block title %}Pago completado{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+    <div class="card text-center">
+        <div class="card-body">
+            <h1 class="card-title">¡Pago Completado!</h1>
+            <p class="card-text">Gracias por tu compra.</p>
+            <p class="card-text">Recibirás un correo electrónico de confirmación pronto.</p>
+            <a href="{% url "product:catalogue" %}" class="btn btn-primary">Volver a la tienda</a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
