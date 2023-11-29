@@ -18,6 +18,11 @@ class ClientCreationForm(UserCreationForm):
 		)
 	)
 
+  email = forms.EmailField(
+    widget=forms.HiddenInput(),
+    required=False
+  )
+
   password1 = forms.CharField(
     max_length=254,
     min_length=5,
@@ -42,7 +47,14 @@ class ClientCreationForm(UserCreationForm):
 
   class Meta:
     model = User
-    fields = ('username', 'password1', 'password2')
+    fields = ('username', 'email', 'password1', 'password2')
+
+  def save(self, commit=True):
+      user = super().save(commit=False)
+      user.email = self.cleaned_data['username']  # Asignar el valor de username al campo email
+      if commit:
+          user.save()
+      return user
 
 
 class ClientLoginForm(AuthenticationForm):
