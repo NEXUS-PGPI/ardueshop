@@ -31,7 +31,7 @@ def product_detail(request, id):
 def catalogue(request):
     products = Product.objects.all()
     categories = Category.objects.all()
-    return render(request, 'product/product_list.html', {'products': products, 'categories': categories}
+    return render(request, 'product/product_list.html', {'products': products, 'categories': categories})
 
 def search_products(request):
     product_name = request.GET.get("product_name", "")
