@@ -32,16 +32,11 @@
                     </div>
                 {% endif %}
             </div>
-            
             <form id="add-to-cart-form" action="{% url 'cart:cart_add' product.id %}" method="post">
               {% csrf_token %}
               <div class="input-group mb-3">
                 <label class="input-group-text" for="quantity">Cantidad</label>
-                <select class="form-select" id="quantity" name="quantity">
-                  {% for num in quantity_range %}
-                    <option value="{{ num }}">{{ num }}</option>
-                  {% endfor %}
-                </select>
+                <input type="number" class="form-control" id="quantity_{{ product.id }}" name="quantity" min="1" value="1">
               </div>
               <button type="submit" class="btn btn-primary">Añadir a la Cesta</button>
             </form>
