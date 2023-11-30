@@ -43,3 +43,11 @@ class OrderItem(models.Model):
 
     def get_cost(self):
         return self.price * self.quantity
+
+class Claim(models.Model):
+    order = models.ForeignKey(Order, related_name="order", on_delete=models.CASCADE)
+    comment = models.TextField()
+    creation_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'Reclamacion #{self.id} - {self.order.email}'

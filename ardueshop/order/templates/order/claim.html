@@ -1,0 +1,16 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block title %}
+  Reclamación de pedido
+{% endblock %}
+
+{% block content %}
+
+<h2>Descripción</h2>
+<p> {{claim.comment}} </p>
+
+<h2>Fecha de creación</h2>
+<p> {{claim.creation_date}} </p>
+
+{% endblock %}

@@ -1,5 +1,5 @@
 from django import forms
-from .models import Order
+from .models import Order, Claim
 
 
 class OrderCreateForm(forms.ModelForm):
@@ -12,3 +12,20 @@ class OrderCreateForm(forms.ModelForm):
             "postal_code": "Código Postal",
             "city": "Ciudad",
         }
+
+class ClaimForm(forms.ModelForm):
+    
+    comment = forms.CharField(
+      max_length=254,
+      label='Descripcion', 
+      widget=forms.TextInput(
+        attrs={
+          "placeholder": "Descripcion de la reclamacion",
+          "class": "form-control"
+        }
+      )
+    )
+
+    class Meta:
+        model = Claim
+        fields = ['comment']

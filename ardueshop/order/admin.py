@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Order, OrderItem
+from .models import Order, OrderItem, Claim
 
 
 class OrderItemInline(admin.TabularInline):
@@ -20,3 +20,7 @@ class OrderAdmin(admin.ModelAdmin):
         "updated",
     ]
     inlines = [OrderItemInline]
+
+@admin.register(Claim)
+class ClaimAdmin(admin.ModelAdmin):
+    list_display = ['order', 'comment', 'creation_date']

@@ -1,0 +1,14 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Realizar una Reclamación{% endblock %}
+
+{% block content %}
+
+  <h2>Nueva Reclamación</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Enviar Reclamación</button>
+  </form>
+
+{% endblock %}

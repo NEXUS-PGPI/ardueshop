@@ -1,7 +1,8 @@
+from datetime import timezone
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from .models import OrderItem
-from .forms import OrderCreateForm
+from .models import Claim, OrderItem, Order
+from .forms import OrderCreateForm, ClaimForm
 from cart.cart import Cart
 
 
@@ -34,3 +35,21 @@ def order_create(request):
         else:
             form = OrderCreateForm()
     return render(request, "order/create.html", {"form": form, "cart": cart})
+
+def new_claim(request, order_id):
+    if request.method == 'POST':
+        form = ClaimForm(request.POST)
+        if form.is_valid():
+            claim = form.save(commit=False)
+            # claim.creation_date = timezone.now()
+            claim.order = Order.objects.get(id=order_id)
+            claim.save()
+            return redirect('order:claim', order_id=order_id, claim_id=claim.id)
+    else:
+        form = ClaimForm()
+    
+    return render(request, 'order/new_claim.html', {'form': form})
+
+def claim(request, order_id, claim_id):
+    claim = Claim.objects.get(id=claim_id)
+    return render(request, 'order/claim.html', {'claim': claim})
