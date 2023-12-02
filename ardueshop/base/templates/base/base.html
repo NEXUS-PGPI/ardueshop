@@ -44,10 +44,13 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav me-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="/catalogue">Catálogo</a>
-        </li>
-      </ul>
+          <li class="nav-item">
+            <a class="nav-link" href="/catalogue">Catálogo</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/order/my_orders">Pedidos</a>
+          </li>
+        </ul>
         <ul class="navbar-nav ml-auto">
           {% if user.is_authenticated %}
             <div class="d-flex align-items-center">
@@ -91,7 +94,7 @@
     {% endblock %}
   </div>
   <footer>
-    <img src="{% static 'US-marca-digital_0.png' %}" alt="US" class="img-fluid col-md-2">
+    <img src="{% static 'US-marca-digital_0.png' %}" alt="US" class="img-fluid col-md-2 offset-md-5">
   </footer>
 </body>
 </html>

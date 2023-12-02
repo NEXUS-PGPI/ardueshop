@@ -13,6 +13,17 @@ class OrderCreateForm(forms.ModelForm):
             "city": "Ciudad",
         }
 
+class EmailPickerForm(forms.Form):
+    email = forms.EmailField(
+        label="",
+        widget=forms.EmailInput(
+            attrs={
+                "placeholder": "Correo Electrónico",
+                "class": "form-control",
+            }
+        ),
+    )
+
 class ClaimForm(forms.ModelForm):
     
     comment = forms.CharField(

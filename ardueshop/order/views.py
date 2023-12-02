@@ -2,8 +2,30 @@ from datetime import timezone
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from .models import Claim, OrderItem, Order
-from .forms import OrderCreateForm, ClaimForm
+from .forms import EmailPickerForm, OrderCreateForm, ClaimForm
 from cart.cart import Cart
+
+def my_orders(request):
+    if request.user.is_authenticated:
+        orders = Order.objects.filter(email=request.user.email)
+        for order in orders:
+            order.claims = Claim.objects.filter(order=order)
+        return render(request, 'order/my_orders.html', {'orders': orders})
+    else:
+        if request.POST.get('email'):
+            orders = Order.objects.filter(email=request.POST.get('email'))
+            for order in orders:
+                order.claims = Claim.objects.filter(order=order)
+            return render(request, 'order/my_orders.html', {'orders': orders})
+        else:
+            return email_picker(request)
+
+def email_picker(request):
+    if request.method == 'POST':
+        return my_orders(request)
+    else:
+        form = EmailPickerForm()
+        return render(request, 'order/email_picker.html', {'form': form})
 
 
 def order_create(request):
@@ -50,6 +72,6 @@ def new_claim(request, order_id):
     
     return render(request, 'order/new_claim.html', {'form': form})
 
-def claim(request, order_id, claim_id):
+def claim(request, claim_id):
     claim = Claim.objects.get(id=claim_id)
     return render(request, 'order/claim.html', {'claim': claim})

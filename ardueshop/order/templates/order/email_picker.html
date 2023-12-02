@@ -1,0 +1,16 @@
+{% extends 'base/base.html' %}
+
+{% load static %}
+
+
+{% block content %}
+  <div class="container" style="padding-top: 20px;">
+    <h4>Introduzca el email que usó para realizar su pedido</h4>
+    <form action="{% url 'order:my_orders' %}" method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="btn btn-secondary me-3">Aceptar</button>
+    </form>
+  </div>
+
+{% endblock %}

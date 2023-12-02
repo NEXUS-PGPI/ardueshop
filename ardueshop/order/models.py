@@ -14,13 +14,13 @@ class Order(models.Model):
     paid = models.BooleanField(default=False)
 
     SHIPPING_STATUS_CHOICES = (
-        ("Pending", "Pending"),
-        ("Shipped", "Shipped"),
-        ("Delivered", "Delivered"),
+        ("Pendiente", "Pendiente"),
+        ("Enviado", "Enviado"),
+        ("Entregado", "Entregado"),
     )
 
     shipping_status = models.CharField(
-        max_length=20, choices=SHIPPING_STATUS_CHOICES, default="Pending"
+        max_length=20, choices=SHIPPING_STATUS_CHOICES, default="Pendiente"
     )
 
     class Meta:
