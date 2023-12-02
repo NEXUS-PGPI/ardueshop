@@ -6,6 +6,6 @@
   <form action="/auth/login/" method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Aceptar</button>
+    <button type="submit" class="btn btn-secondary me-3">Aceptar</button>
   </form>
 {% endblock %}

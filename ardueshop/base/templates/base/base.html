@@ -52,7 +52,30 @@
           {% if user.is_authenticated %}
             <div class="d-flex align-items-center">
               <p class="nav-link m-0 me-3">
-                <strong>Tu</strong>
+                {% if "@gmail.com" in user.email %}
+                  <strong>{{ user.email|cut:'@gmail.com' }}</strong>
+                {% endif %}
+                {% if "@terra.com" in user.email %}
+                  <strong>{{ user.email|cut:'@terra.com' }}</strong>
+                {% endif %}
+                {% if "@outlook.com" in user.email %}
+                  <strong>{{ user.email|cut:'@outlook.com' }}</strong>
+                {% endif %}
+                {% if "@hotmail.com" in user.email %}
+                  <strong>{{ user.email|cut:'@hotmail.com' }}</strong>
+                {% endif %}
+                {% if "@yahoo.com" in user.email %}
+                  <strong>{{ user.email|cut:'@yahoo.com' }}</strong>
+                {% endif %}
+                {% if "@proton.me" in user.email %}
+                  <strong>{{ user.email|cut:'@proton.me' }}</strong>
+                {% endif %}
+                {% if "@alum.us.es" in user.email %}
+                  <strong>{{ user.email|cut:'@alum.us.es' }}</strong>
+                {% endif %}
+                {% if "@us.es" in user.email %}
+                  <strong>{{ user.email|cut:'@us.es' }}</strong>
+                {% endif %}
               </p>
               <a class="btn btn-secondary me-3" href="/auth/logout">Cerrar Sesion</a>
             </div>

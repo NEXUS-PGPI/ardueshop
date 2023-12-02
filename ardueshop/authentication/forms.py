@@ -1,11 +1,34 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth.models import User
 from django import forms
+
+from .models import ArduUser
 
 # Formularios de acceso y registro al sistema
 
 class ClientCreationForm(UserCreationForm):
+
+  first_name = forms.CharField(
+    max_length=254,
+    label="Nombre",
+    widget=forms.TextInput(
+      attrs={
+        "placeholder": "Nombre",
+        "class": "form-control"
+      }
+    )
+  )
+
+  last_name = forms.CharField(
+    max_length=254,
+    label="Apellido",
+    widget=forms.TextInput(
+      attrs={
+        "placeholder": "Apellido",
+        "class": "form-control"
+      }
+    )
+  )
 
   username = forms.EmailField(
 		max_length=254,
@@ -21,6 +44,29 @@ class ClientCreationForm(UserCreationForm):
   email = forms.EmailField(
     widget=forms.HiddenInput(),
     required=False
+  )
+
+  address = forms.CharField(
+    max_length=254,
+    label="Dirección",
+    widget=forms.TextInput(
+      attrs={
+        "placeholder": "Dirección",
+        "class": "form-control"
+      }
+    )
+  )
+
+  postal_code = forms.DecimalField(
+    max_digits=5,
+    decimal_places=0,
+    label="Código postal",
+    widget=forms.NumberInput(
+      attrs={
+        "placeholder": "Código postal",
+        "class": "form-control"
+      }
+    )
   )
 
   password1 = forms.CharField(
@@ -46,8 +92,8 @@ class ClientCreationForm(UserCreationForm):
   )
 
   class Meta:
-    model = User
-    fields = ('username', 'email', 'password1', 'password2')
+    model = ArduUser
+    fields = ('first_name', 'last_name', 'username', 'email', 'address', 'postal_code','password1', 'password2')
 
   def save(self, commit=True):
       user = super().save(commit=False)
@@ -83,5 +129,5 @@ class ClientLoginForm(AuthenticationForm):
   )
 
   class Meta:
-    model = User
+    model = ArduUser
     fields = ('username', 'password')
