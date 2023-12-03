@@ -66,7 +66,7 @@ def new_claim(request, order_id):
             # claim.creation_date = timezone.now()
             claim.order = Order.objects.get(id=order_id)
             claim.save()
-            return redirect('order:claim', order_id=order_id, claim_id=claim.id)
+            return redirect('order:claim', claim_id=claim.id)
     else:
         form = ClaimForm()
     
