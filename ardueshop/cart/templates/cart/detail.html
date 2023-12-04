@@ -10,6 +10,13 @@
     <div class="row">
       <div class="col-12 text-center">
         <h1>Tu cesta de la compra</h1>
+        {% if messages %}
+          {% for message in messages %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+              {{ message }}
+            </div>
+          {% endfor %}
+        {% endif %}
       </div>
     </div>
     <div class="row">

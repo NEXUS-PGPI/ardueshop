@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse
+from django.contrib import messages
 from .models import OrderItem
 from .forms import OrderCreateForm
 from cart.cart import Cart
@@ -30,6 +31,18 @@ def order_create(request):
 
             return redirect(reverse("payment:process"))
     else:
+        no_stock_products = []
+        for item in cart:
+            if item["quantity"] > item["product"].stock:
+                no_stock_products.append(item["product"])
+        if len(no_stock_products) > 0:
+            messages.error(
+                request,
+                "No hay suficiente stock de los siguientes productos: {}".format(
+                    ", ".join([str(p) for p in no_stock_products])
+                ),
+            )
+            return redirect(reverse("cart:cart_detail"))
         if request.user.is_authenticated:
             ardu_user = ArduUser.objects.get(user=request.user)
             form = OrderCreateForm(
