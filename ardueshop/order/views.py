@@ -1,10 +1,17 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.contrib import messages
+from django.conf import settings
+from decimal import Decimal
 from .models import OrderItem
 from .forms import OrderCreateForm
 from cart.cart import Cart
 from authentication.models import ArduUser
+import stripe
+
+# create the Stripe instance
+stripe.api_key = settings.STRIPE_SECRET_KEY
+stripe.api_version = settings.STRIPE_API_VERSION
 
 
 def order_create(request):
@@ -29,7 +36,8 @@ def order_create(request):
 
             request.session["order_id"] = order.id
 
-            return redirect(reverse("payment:process"))
+            return payment_process(request, order)
+
     else:
         no_stock_products = []
         for item in cart:
@@ -43,6 +51,7 @@ def order_create(request):
                 ),
             )
             return redirect(reverse("cart:cart_detail"))
+
         if request.user.is_authenticated:
             ardu_user = ArduUser.objects.get(user=request.user)
             form = OrderCreateForm(
@@ -58,3 +67,41 @@ def order_create(request):
         else:
             form = OrderCreateForm()
     return render(request, "order/create.html", {"form": form, "cart": cart})
+
+
+# Auxiliar functions:
+
+
+def payment_process(request, order):
+    success_url = request.build_absolute_uri(reverse("payment:completed"))
+    cancel_url = request.build_absolute_uri(reverse("payment:canceled"))
+
+    # Stripe checkout session data
+    session_data = {
+        "mode": "payment",
+        "client_reference_id": order.id,
+        "success_url": success_url,
+        "cancel_url": cancel_url,
+        "line_items": [],
+    }
+
+    # Add order items to the Stripe checkout session
+    for item in order.items.all():
+        session_data["line_items"].append(
+            {
+                "price_data": {
+                    "unit_amount": int(item.price * Decimal("100")),
+                    "currency": "eur",
+                    "product_data": {
+                        "name": item.product.name,
+                    },
+                },
+                "quantity": item.quantity,
+            }
+        )
+
+    # Create Stripe checkout session
+    session = stripe.checkout.Session.create(**session_data)
+
+    # redirect to Stripe payment form
+    return redirect(session.url, code=303)
