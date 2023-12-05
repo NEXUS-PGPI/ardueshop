@@ -12,21 +12,7 @@ def my_orders(request):
             order.claims = Claim.objects.filter(order=order)
         return render(request, 'order/my_orders.html', {'orders': orders})
     else:
-        if request.POST.get('email'):
-            orders = Order.objects.filter(email=request.POST.get('email'))
-            for order in orders:
-                order.claims = Claim.objects.filter(order=order)
-            return render(request, 'order/my_orders.html', {'orders': orders})
-        else:
-            return email_picker(request)
-
-def email_picker(request):
-    if request.method == 'POST':
-        return my_orders(request)
-    else:
-        form = EmailPickerForm()
-        return render(request, 'order/email_picker.html', {'form': form})
-
+        return render(request, 'order/not_authenticated_user.html')
 
 def order_create(request):
     cart = Cart(request)

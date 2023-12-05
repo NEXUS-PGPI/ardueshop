@@ -8,5 +8,4 @@ urlpatterns = [
     path('<int:order_id>/claim/new_claim', views.new_claim, name='do_claim'),
     path('claim/<int:claim_id>', views.claim, name='claim'),
     path('my_orders/', views.my_orders, name='my_orders'),
-    path('email_picker/', views.email_picker, name='email_picker'),
 ]
