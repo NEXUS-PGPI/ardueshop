@@ -40,4 +40,7 @@ def payment_completed(request):
 
 
 def payment_canceled(request):
+    # Delete the order
+    order = Order.objects.get(id=request.session.get("order_id"))
+    order.delete()
     return render(request, "payment/canceled.html")
