@@ -16,13 +16,13 @@ class Order(models.Model):
     paid = models.BooleanField(default=False)
 
     SHIPPING_STATUS_CHOICES = (
-        ("Pending", "Pending"),
-        ("Shipped", "Shipped"),
-        ("Delivered", "Delivered"),
+        ("Pendiente", "Pendiente"),
+        ("Enviado", "Enviado"),
+        ("Entregado", "Entregado"),
     )
 
     shipping_status = models.CharField(
-        max_length=20, choices=SHIPPING_STATUS_CHOICES, default="Pending"
+        max_length=20, choices=SHIPPING_STATUS_CHOICES, default="Pendiente"
     )
 
     class Meta:
@@ -45,3 +45,11 @@ class OrderItem(models.Model):
 
     def get_cost(self):
         return self.price * self.quantity
+
+class Claim(models.Model):
+    order = models.ForeignKey(Order, related_name="order", on_delete=models.CASCADE)
+    comment = models.TextField()
+    creation_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'Reclamacion #{self.id} - {self.order.email}'

@@ -1,0 +1,14 @@
+{% extends 'base/base.html' %}
+
+{% block title %}
+  Ardueshop
+{% endblock %}
+
+{% block content %}
+  <div class="container text-center" style="padding-top: 20px;">
+    <h1 class="mb-5">Acceso denegado</h1>
+    <h4>Necesitas autenticarte para acceder a los pedidos</h4>
+    <a href="{% url 'authentication:login' %}" class="btn btn-primary">Acceder</a>
+    <a href="{% url 'authentication:signup' %}" class="btn btn-primary">Registrarse</a>
+  </div>
+{% endblock %}
