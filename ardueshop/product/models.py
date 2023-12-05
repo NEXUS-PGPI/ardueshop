@@ -26,7 +26,7 @@ class Product(models.Model):
         return self.name
 
 class Opinion(models.Model):
-    date = models.DateTimeField(default=timezone.now())
+    date = models.DateTimeField(default=timezone.now)
     comment = models.TextField()
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='opinions')
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='opinions')
