@@ -1,7 +1,4 @@
-from decimal import Decimal
-import stripe
-from django.conf import settings
-from django.shortcuts import render, redirect, reverse, get_object_or_404
+from django.shortcuts import render, redirect, reverse
 from django.contrib.auth.models import User
 from order.models import Order
 from authentication.models import ArduUser

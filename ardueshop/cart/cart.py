@@ -14,6 +14,7 @@ class Cart:
             # save an empty cart in the session
             cart = self.session[settings.CART_SESSION_ID] = {}
         self.cart = cart
+        self.shipping = self.session.get('shipping', 5)
 
     def __iter__(self):
         """
@@ -69,5 +70,15 @@ class Cart:
         del self.session[settings.CART_SESSION_ID]
         self.save()
 
-    def get_total_price(self):
+
+    def get_shipping(self):
+        return self.shipping
+
+    def get_total_price_without_shipping(self):
         return sum(Decimal(item['price']) * item['quantity'] for item in self.cart.values())
+
+    def get_total_price(self):
+        total_price = self.get_total_price_without_shipping()
+        if total_price < 50:
+            total_price += Decimal(self.get_shipping())
+        return total_price

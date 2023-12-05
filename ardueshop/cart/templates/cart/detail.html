@@ -2,77 +2,115 @@
 {% load static %}
 
 {% block title %}
-  Tu cesta de la compra
+    Tu cesta de la compra
 {% endblock %}
 
 {% block content %}
-  <div class="container mt-4">
-    <div class="row">
-      <div class="col-12 text-center">
-        <h1>Tu cesta de la compra</h1>
-        {% if messages %}
-          {% for message in messages %}
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-              {{ message }}
-            </div>
-          {% endfor %}
-        {% endif %}
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-12 text-center">
+      <h1>Tu cesta de la compra</h1>
+      {% if messages %}
+      {% for message in messages %}
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{ message }}
       </div>
-    </div>
-    <div class="row">
-      <div class="col-12">
-        <table class="table table-striped table-bordered">
-          <thead class="table-dark">
-            <tr>
-              <th>Imagen</th>
-              <th>Producto</th>
-              <th>Cantidad</th>
-              <th>Eliminar</th>
-              <th>Precio unitario</th>
-              <th>Precio</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for item in cart %}
-              {% with product=item.product %}
-                <tr>
-                  <td>
-                    <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static "img/no_image.png" %}{% endif %}" class="img-thumbnail" alt="{{ product.name }}" style="width: 100px; height: 100px;">
-                  </td>
-                  <td>{{ product.name }}</td>
-                  <td>
-                    <form action="{% url "cart:cart_add" product.id %}" method="post">
-                      {{ item.update_quantity_form.quantity }}
-                      {{ item.update_quantity_form.override }}
-                      <button type="submit" class="btn btn-primary btn-sm">Actualizar</button>
-                      {% csrf_token %}
-                    </form>
-                  </td>
-                  <td>
-                    <form action="{% url "cart:cart_remove" product.id %}" method="post">
-                      <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
-                      {% csrf_token %}
-                    </form>
-                  </td>
-                  <td class="num">{{ item.price }} €</td>
-                  <td class="num">{{ item.total_price }} €</td>
-                </tr>
-              {% endwith %}
-            {% endfor %}
-            <tr class="table-secondary">
-              <td colspan="5" class="text-end">Total</td>
-              <td class="num">{{ cart.get_total_price }} €</td>
-            </tr>
-          </tbody>
-        </table>
-        <p class="text-end">
-          <a href="{% url "product:catalogue" %}" class="btn btn-primary">Continuar comprando</a>
-          {% if cart %}
-            <a href="{% url "order:order_create" %}" class="btn btn-success">Realizar pedido</a>
-          {% endif %}
-
-        </p>
-      </div>
+      {% endfor %}
+      {% endif %}
     </div>
   </div>
+  <div class="row">
+    <div class="col-12">
+      <table class="table table-striped table-bordered">
+        <thead class="table-dark">
+          <tr>
+            <th>Imagen</th>
+            <th>Producto</th>
+            <th>Cantidad</th>
+            <th>Eliminar</th>
+            <th>Precio unitario</th>
+            <th>Precio</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in cart %}
+            {% with product=item.product %}
+            <tr>
+              <td>
+                <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static " img/no_image.png" %}{% endif%}"
+                class="img-thumbnail" alt="{{ product.name }}" style="width: 100px; height: 100px;">
+              </td>
+              <td>{{ product.name }}</td>
+              <td>
+                <form action="{% url "cart:cart_add" product.id %}" method="post">
+                  {{ item.update_quantity_form.quantity }}
+                  {{ item.update_quantity_form.override }}
+                  <button type="submit" class="btn btn-primary btn-sm">Actualizar</button>
+                  {% csrf_token %}
+                </form>
+              </td>
+              <td>
+                <form action="{% url "cart:cart_remove" product.id %}" method="post">
+                  <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                  {% csrf_token %}
+                </form>
+              </td>
+              <td class="num">{{ item.price }} €</td>
+              <td class="num">{{ item.total_price }} €</td>
+            </tr>
+            {% endwith %}
+          {% endfor %}
+          
+          <!-- Añadir la entrada de envío -->
+          {% if cart|length > 0 %}
+          <tr>
+            <td colspan="5" class="text-end">Envío</td>
+            {% if cart.get_total_price_without_shipping >= 50 %}
+            <td>Gratis</td>
+            {% else %}
+            <td class="num">{{ cart.get_shipping }} €</td>
+            {% endif %}
+          </tr>
+          {% endif %}
+
+          <tr class="table-secondary">
+            <td colspan="5" class="text-end">Total</td>
+            {% if cart.get_total_price_without_shipping >= 50 or cart|length == 0 %}
+            <td class="num">{{ cart.get_total_price_without_shipping }} €</td>
+            {% else %}
+            <td class="num">{{ cart.get_total_price }} €</td>
+            {% endif %}
+          </tr>
+        </tbody>
+      </table>
+      <p class="text-end">
+        <a href="{% url "catalogue:catalogue" %}" class="btn btn-primary">Continuar comprando</a>
+        {% if cart %}
+        <a href="{% url "order:order_create" %}" class="btn btn-success">Realizar pedido</a>
+        {% endif %}
+      </p>
+    </div>
+  </div>
+</div>
 {% endblock %}
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        // Obtén los elementos del DOM
+        let shippingCostElement = document.querySelector('.shipping-cost');
+        let totalCostElement = document.querySelector('.total-cost');
+
+        // Convierte los costos a números
+        let shippingCost = parseFloat(shippingCostElement.innerText);
+        let totalCost = parseFloat(totalCostElement.innerText);
+
+        // Verifica si se debe cobrar el envío
+        if (totalCost <= 50) {
+            totalCost += shippingCost;
+        }
+
+        // Actualiza el costo total en el DOM
+        totalCostElement.innerText = totalCost.toFixed(2);
+    });
+</script>
