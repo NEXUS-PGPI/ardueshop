@@ -1,0 +1,13 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+
+<div class="container" style="padding-top: 20px;">
+  <h4>Nueva Reclamación</h4>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-secondary me-3">Enviar Reclamación</button>
+  </form>
+</div>
+{% endblock %}
