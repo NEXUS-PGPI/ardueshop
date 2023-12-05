@@ -1,6 +1,6 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
-from .models import OrderItem
+from .models import OrderItem, Order
 from .forms import OrderCreateForm
 from cart.cart import Cart
 
@@ -34,3 +34,8 @@ def order_create(request):
         else:
             form = OrderCreateForm()
     return render(request, "order/create.html", {"form": form, "cart": cart})
+
+
+def order_status(request, id):
+    order = get_object_or_404(Order, id=id)
+    return render(request, "order/order_status.html", {"order": order})

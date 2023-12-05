@@ -1,0 +1,35 @@
+{% extends "base/base.html" %}
+{% load static %}
+{% block title %}ArduEshop{% endblock %}
+{% block content %}
+
+    <div class="container mt-4">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Email</th>
+                <th>Dirección</th>
+                <th>Código Postal</th>
+                <th>Ciudad</th>
+                <th>Fecha de Creación</th>
+                <th>Fecha de Actualización</th>
+                <th>Pagado</th>
+                <th>Estado del Envío</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>{{ order.email }}</td>
+                <td>{{ order.address }}</td>
+                <td>{{ order.postal_code }}</td>
+                <td>{{ order.city }}</td>
+                <td>{{ order.created }}</td>
+                <td>{{ order.updated }}</td>
+                <td>{{ order.paid }}</td>
+                <td>{{ order.shipping_status }}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}
