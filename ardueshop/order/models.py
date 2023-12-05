@@ -5,6 +5,8 @@ from product.models import Product
 
 
 class Order(models.Model):
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
     email = models.EmailField()
     address = models.CharField(max_length=250)
     postal_code = models.CharField(max_length=20)
@@ -47,10 +49,11 @@ class OrderItem(models.Model):
     def get_cost(self):
         return self.price * self.quantity
 
+
 class Claim(models.Model):
     order = models.ForeignKey(Order, related_name="order", on_delete=models.CASCADE)
     comment = models.TextField()
     creation_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f'Reclamacion #{self.id} - {self.order.email}'
+        return f"Reclamacion #{self.id} - {self.order.email}"
