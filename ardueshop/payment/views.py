@@ -42,6 +42,20 @@ def payment_process(request):
                 }
             )
 
+        if order.get_total_cost() < 50:
+            session_data["line_items"].append(
+                {
+                    "price_data": {
+                        "unit_amount": int(order.get_shipping_cost() * Decimal("100")),
+                        "currency": "eur",
+                        "product_data": {
+                            "name": "Costes de envío",
+                        },
+                    },
+                    "quantity": 1,
+                }
+            )
+
         # create Stripe checkout session
         session = stripe.checkout.Session.create(**session_data)
 
