@@ -57,15 +57,18 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav me-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="/catalogue">Catálogo</a>
-        </li>
-      </ul>
+          <li class="nav-item">
+            <a class="nav-link" href="/catalogue">Catálogo</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/order/my_orders">Pedidos</a>
+          </li>
+        </ul>
         <ul class="navbar-nav ml-auto">
           {% if user.is_authenticated %}
             <div class="d-flex align-items-center">
               <p class="nav-link m-0 me-3">
-                <strong>{{ user.username }}</strong>
+                  <strong>{{ user.email }}</strong>
               </p>
               <a class="btn btn-secondary me-3" href="/auth/logout">Cerrar Sesion</a>
             </div>
