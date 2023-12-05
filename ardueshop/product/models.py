@@ -1,4 +1,7 @@
+from datetime import datetime
 from django.db import models
+from django.contrib.auth.models import User
+from django.utils import timezone
 
 # Create your models here.
 class Category(models.Model):
@@ -21,3 +24,12 @@ class Product(models.Model):
     
     def __str__(self):
         return self.name
+
+class Opinion(models.Model):
+    date = models.DateTimeField(default=timezone.now())
+    comment = models.TextField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='opinions')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='opinions')
+
+    def __str__(self):
+        return self.comment
