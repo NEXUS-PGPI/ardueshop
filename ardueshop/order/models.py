@@ -25,17 +25,30 @@ class Order(models.Model):
         max_length=20, choices=SHIPPING_STATUS_CHOICES, default="Pendiente"
     )
 
+    PAYMENT_METHOD_CHOICES = (
+        ("Tarjeta", "Tarjeta"),
+        ("Contra-reembolso", "Contra-reembolso"),
+    )
+
+    payment_method = models.CharField(max_length=20, choices=PAYMENT_METHOD_CHOICES)
+
     class Meta:
         ordering = ["-created"]
         indexes = [
             models.Index(fields=["-created"]),
         ]
 
-    def get_total_cost(self):
+    def get_order_cost(self):
         return sum(item.get_cost() for item in self.items.all())
 
     def get_shipping_cost(self):
-        return 5
+        if self.get_order_cost() >= 50:
+            return 0
+        else:
+            return 5
+
+    def get_total_cost(self):
+        return self.get_order_cost() + self.get_shipping_cost()
 
 
 class OrderItem(models.Model):
