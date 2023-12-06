@@ -20,6 +20,9 @@
             </tr>
         </thead>
         <tbody>
+            {% if not claims %}
+            <tr><td colspan="5">No hay reclamaciones</td></tr>
+            {% endif %}
             {% for claim in claims %}
             <tr data-category="{{ claim.claim_status }}">
                 <td>{{ claim.order.id }}</td>
