@@ -21,6 +21,7 @@ class OrderAdmin(admin.ModelAdmin):
     ]
     inlines = [OrderItemInline]
 
+
 @admin.register(Claim)
 class ClaimAdmin(admin.ModelAdmin):
-    list_display = ['order', 'comment', 'creation_date']
+    list_display = ["order", "comment", "creation_date"]
