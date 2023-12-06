@@ -69,9 +69,13 @@
                     <p>{{ form.shipping_method.label_tag }}</p>
                     <p onchange="checkShipping({{ cart.get_total_price_without_shipping }})">{{ form.shipping_method }}</p>
                 </div>
+                <div class="d-flex justify-content-between">
+                    <p>{{ form.payment_method.label_tag }}</p>
+                    <p>{{ form.payment_method }}</p>
+                </div>
                 <p class="d-flex justify-content-center mt-3">
                     <a href="{% url "cart:cart_detail" %}" class="btn btn-danger me-3">Volver a la cesta</a>
-                    <input type="submit" value="Confirmar y pagar" class="btn btn-primary">
+                    <input type="submit" value="Confirmar" class="btn btn-primary">
                 </p>
             </form>
         </div>

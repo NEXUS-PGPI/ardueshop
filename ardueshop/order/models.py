@@ -33,6 +33,13 @@ class Order(models.Model):
         max_length=25, choices=SHIPPING_METHOD_CHOICES, default="Entrega estándar"
     )
 
+    PAYMENT_METHOD_CHOICES = (
+        ("Tarjeta", "Tarjeta"),
+        ("Contra-reembolso", "Contra-reembolso"),
+    )
+
+    payment_method = models.CharField(max_length=20, choices=PAYMENT_METHOD_CHOICES)
+
     class Meta:
         ordering = ["-created"]
         indexes = [
@@ -40,15 +47,17 @@ class Order(models.Model):
         ]
 
     def get_total_cost(self):
-        cost_no_shipping = sum(item.get_cost() for item in self.items.all())
-        if cost_no_shipping < 50 and self.shipping_method == "Entrega estándar":
-            return cost_no_shipping + 5
-        else:
-            return cost_no_shipping  
+        return self.get_order_cost() + self.get_shipping_cost() 
             
+    def get_order_cost(self):
+        return sum(item.get_cost() for item in self.items.all())
 
     def get_shipping_cost(self):
-        return 5
+        if self.get_order_cost() < 50 and self.shipping_method == "Entrega estándar":
+            return 5
+        else:
+            return 0
+
 
 
 class OrderItem(models.Model):
