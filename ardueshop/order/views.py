@@ -11,6 +11,8 @@ from payment.forms import SaveDataForm
 from cart.cart import Cart
 from authentication.models import ArduUser
 import stripe
+from django.contrib.auth.decorators import login_required
+
 
 # create the Stripe instance
 stripe.api_key = settings.STRIPE_SECRET_KEY
@@ -158,11 +160,15 @@ def claim(request, claim_id):
     return render(request, "order/claim.html", {"claim": claim, "form": form})
 
 
-
+@login_required(login_url="/auth/login")
 def list_claims(request):
-    claims = Claim.objects.all()
+    user = request.user
+    if user.is_staff:
+        claims = Claim.objects.all()
 
-    return render(request, "order/claim_listing.html", {"claims": claims})
+        return render(request, "order/claim_listing.html", {"claims": claims})
+    else:
+        return redirect("/auth/login")
     
 
 
