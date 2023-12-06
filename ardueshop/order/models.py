@@ -76,7 +76,7 @@ class Claim(models.Model):
         max_length=20, choices=CLAIM_STATUS_CHOICES, default="Pendiente"
     )
 
-    response = models.TextField()
+    response = models.TextField(blank=True)
 
     def __str__(self):
         return f"Reclamacion #{self.id} - {self.order.email}"
