@@ -67,6 +67,22 @@ class Claim(models.Model):
     order = models.ForeignKey(Order, related_name="order", on_delete=models.CASCADE)
     comment = models.TextField()
     creation_date = models.DateTimeField(auto_now_add=True)
+    CLAIM_STATUS_CHOICES = (
+        ("Pendiente", "Pendiente"),
+        ("Atendida", "Atendida"),
+    )
+
+    claim_status = models.CharField(
+        max_length=20, choices=CLAIM_STATUS_CHOICES, default="Pendiente"
+    )
+
+    response = models.TextField()
 
     def __str__(self):
         return f"Reclamacion #{self.id} - {self.order.email}"
+    
+    class Meta:
+        ordering = ["-creation_date"]
+        indexes = [
+            models.Index(fields=["-creation_date"]),
+        ]

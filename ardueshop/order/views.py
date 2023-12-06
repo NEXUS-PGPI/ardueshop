@@ -6,7 +6,7 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from decimal import Decimal
 from .models import Claim, OrderItem, Order
-from .forms import OrderCreateForm, ClaimForm
+from .forms import OrderCreateForm, ClaimForm, ClaimResponseForm
 from payment.forms import SaveDataForm
 from cart.cart import Cart
 from authentication.models import ArduUser
@@ -138,8 +138,32 @@ def new_claim(request, order_id):
 
 
 def claim(request, claim_id):
-    claim = Claim.objects.get(id=claim_id)
-    return render(request, "order/claim.html", {"claim": claim})
+    if request.method == "POST":
+        user = request.user
+        if user.is_staff:
+            form = ClaimResponseForm(request.POST)
+            if form.is_valid():
+                claim = Claim.objects.get(id=claim_id)
+                claim.response = form.cleaned_data.get('response')
+                claim.claim_status = "Atendida"
+                claim.save()
+                return redirect("order:claim", claim_id=claim.id)
+            
+    else:
+        claim = Claim.objects.get(id=claim_id)
+        user = request.user
+        form = None
+        if user.is_staff:
+            form = ClaimResponseForm()
+    return render(request, "order/claim.html", {"claim": claim, "form": form})
+
+
+
+def list_claims(request):
+    claims = Claim.objects.all()
+
+    return render(request, "order/claim_listing.html", {"claims": claims})
+    
 
 
 # Auxiliar functions:

@@ -52,3 +52,19 @@ class ClaimForm(forms.ModelForm):
     class Meta:
         model = Claim
         fields = ["comment"]
+
+class ClaimResponseForm(forms.ModelForm):
+    response = forms.CharField(
+        max_length=1024,
+        label="Respuesta",
+        widget=forms.Textarea(
+            attrs={
+                "placeholder": "Respuesta a la reclamación",
+                "class": "form-control",
+            }
+        ),
+    )
+
+    class Meta:
+        model = Claim
+        fields = ["response"]
