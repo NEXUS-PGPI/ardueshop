@@ -3,9 +3,11 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.contrib import messages
 from django.conf import settings
+from django.contrib.auth.models import User
 from decimal import Decimal
 from .models import Claim, OrderItem, Order
 from .forms import OrderCreateForm, ClaimForm
+from payment.forms import SaveDataForm
 from cart.cart import Cart
 from authentication.models import ArduUser
 import stripe
@@ -47,7 +49,16 @@ def order_create(request):
 
             request.session["order_id"] = order.id
 
-            return payment_process(request, order)
+            if order.payment_method == "Tarjeta":
+                return payment_process(request, order)
+            else:
+                order.shipping_status = "Enviado"
+                order.save()
+                # Update product stock
+                for item in order.items.all():
+                    item.product.stock -= item.quantity
+                    item.product.save()
+                return redirect(reverse("order:order_placed"))
 
     else:
         no_stock_products = []
@@ -78,6 +89,37 @@ def order_create(request):
         else:
             form = OrderCreateForm()
     return render(request, "order/create.html", {"form": form, "cart": cart})
+
+
+def order_placed(request):
+    order = Order.objects.get(id=request.session.get("order_id"))
+    form = SaveDataForm()
+    if request.method == "POST":
+        form = SaveDataForm(request.POST)
+        if form.is_valid():
+            user = User.objects.get(id=request.user.id)
+            ardu_user = ArduUser.objects.get(user=user)
+            if form.cleaned_data["save_data_checkbox"]:
+                user.first_name = order.first_name
+                user.last_name = order.last_name
+                user.save()
+                ardu_user.address = order.address
+                ardu_user.postal_code = order.postal_code
+                ardu_user.city = order.city
+                ardu_user.save()
+
+            else:
+                user.first_name = ""
+                user.last_name = ""
+                user.save()
+                ardu_user.address = None
+                ardu_user.postal_code = None
+                ardu_user.city = None
+                ardu_user.save()
+
+            return redirect(reverse("catalogue:catalogue"))
+
+    return render(request, "order/order_placed.html", {"order": order, "form": form})
 
 
 def new_claim(request, order_id):
@@ -131,7 +173,7 @@ def payment_process(request, order):
             }
         )
 
-    if order.get_total_cost() < 50:
+    if order.get_order_cost() < 50:
         session_data["line_items"].append(
             {
                 "price_data": {
@@ -148,5 +190,5 @@ def payment_process(request, order):
     # Create Stripe checkout session
     session = stripe.checkout.Session.create(**session_data)
 
-    # redirect to Stripe payment form
+    # Redirect to Stripe payment form
     return redirect(session.url, code=303)
