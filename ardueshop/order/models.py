@@ -25,6 +25,14 @@ class Order(models.Model):
         max_length=20, choices=SHIPPING_STATUS_CHOICES, default="Pendiente"
     )
 
+    SHIPPING_METHOD_CHOICES = (
+        ("Entrega estándar", "Entrega estándar"),
+        ("Recogida en tienda", "Recogida en tienda")
+    )
+    shipping_method = models.CharField(
+        max_length=25, choices=SHIPPING_METHOD_CHOICES, default="Entrega estándar"
+    )
+
     class Meta:
         ordering = ["-created"]
         indexes = [
@@ -32,7 +40,12 @@ class Order(models.Model):
         ]
 
     def get_total_cost(self):
-        return sum(item.get_cost() for item in self.items.all())
+        cost_no_shipping = sum(item.get_cost() for item in self.items.all())
+        if cost_no_shipping < 50 and self.shipping_method == "Entrega estándar":
+            return cost_no_shipping + 5
+        else:
+            return cost_no_shipping  
+            
 
     def get_shipping_cost(self):
         return 5

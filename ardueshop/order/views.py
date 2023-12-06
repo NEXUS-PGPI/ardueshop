@@ -131,7 +131,7 @@ def payment_process(request, order):
             }
         )
 
-    if order.get_total_cost() < 50:
+    if order.get_total_cost() < 50 and order.shipping_method == "Entrega estándar":
         session_data["line_items"].append(
             {
                 "price_data": {

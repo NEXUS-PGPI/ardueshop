@@ -5,7 +5,7 @@ from .models import Order, Claim
 class OrderCreateForm(forms.ModelForm):
     class Meta:
         model = Order
-        fields = ["email", "first_name", "last_name", "address", "postal_code", "city"]
+        fields = ["email", "first_name", "last_name", "address", "postal_code", "city", "shipping_method"]
         labels = {
             "email": "Correo Electrónico",
             "first_name": "Nombre",
@@ -13,6 +13,7 @@ class OrderCreateForm(forms.ModelForm):
             "address": "Dirección",
             "postal_code": "Código Postal",
             "city": "Ciudad",
+            "shipping_method": "Método de entrega",
         }
 
 class EmailPickerForm(forms.Form):
