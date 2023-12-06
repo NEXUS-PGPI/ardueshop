@@ -30,7 +30,7 @@ class Order(models.Model):
 
     SHIPPING_METHOD_CHOICES = (
         ("Entrega estándar", "Entrega estándar"),
-        ("Recogida en tienda", "Recogida en tienda")
+        ("Recogida en tienda", "Recogida en tienda"),
     )
     shipping_method = models.CharField(
         max_length=25, choices=SHIPPING_METHOD_CHOICES, default="Entrega estándar"
@@ -41,7 +41,9 @@ class Order(models.Model):
         ("Contra-reembolso", "Contra-reembolso"),
     )
 
-    payment_method = models.CharField(max_length=20, choices=PAYMENT_METHOD_CHOICES)
+    payment_method = models.CharField(
+        max_length=20, choices=PAYMENT_METHOD_CHOICES, default="Tarjeta"
+    )
 
     class Meta:
         ordering = ["-created"]
@@ -50,8 +52,8 @@ class Order(models.Model):
         ]
 
     def get_total_cost(self):
-        return self.get_order_cost() + self.get_shipping_cost() 
-            
+        return self.get_order_cost() + self.get_shipping_cost()
+
     def get_order_cost(self):
         return sum(item.get_cost() for item in self.items.all())
 
@@ -60,7 +62,6 @@ class Order(models.Model):
             return 5
         else:
             return 0
-
 
     def send_confirmation_email(self):
         subject = "ArduEshop - Confirmación de pedido"

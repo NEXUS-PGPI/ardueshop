@@ -39,7 +39,11 @@
 
     <p><strong>Importe total:</strong> {{ order.get_total_cost }} €</p>
 
+    {% if order.shipping_method == 'Entrega estándar' %}
     <p><strong>Dirección de entrega:</strong> {{ order.address }}, {{ order.city }}, {{ order.postal_code }}</p>
+    {% else %}
+    <p><strong>Puede recoger su pedido en nuestra tienda:</strong> Calle San Fernando, 4, 41004, Sevilla</p>
+    {% endif %}
 
     {% if order.payment_method == 'Tarjeta' %}
     <p><strong>Método de pago:</strong> Tarjeta</p>

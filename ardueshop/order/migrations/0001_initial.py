@@ -5,59 +5,118 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     initial = True
-
-    dependencies = [
-        ('product', '0007_alter_opinion_date'),
-    ]
 
     operations = [
         migrations.CreateModel(
-            name='Claim',
+            name="Claim",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('comment', models.TextField()),
-                ('creation_date', models.DateTimeField(auto_now_add=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("comment", models.TextField()),
+                ("creation_date", models.DateTimeField(auto_now_add=True)),
             ],
         ),
         migrations.CreateModel(
-            name='Order',
+            name="Order",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('first_name', models.CharField(max_length=50)),
-                ('last_name', models.CharField(max_length=50)),
-                ('email', models.EmailField(max_length=254)),
-                ('address', models.CharField(max_length=250)),
-                ('postal_code', models.CharField(max_length=20)),
-                ('city', models.CharField(max_length=100)),
-                ('created', models.DateTimeField(auto_now_add=True)),
-                ('updated', models.DateTimeField(auto_now=True)),
-                ('paid', models.BooleanField(default=False)),
-                ('shipping_status', models.CharField(choices=[('Pendiente', 'Pendiente'), ('Enviado', 'Enviado'), ('Entregado', 'Entregado')], default='Pendiente', max_length=20)),
-                ('payment_method', models.CharField(choices=[('Tarjeta', 'Tarjeta'), ('Contra-reembolso', 'Contra-reembolso')], max_length=20)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("first_name", models.CharField(max_length=50)),
+                ("last_name", models.CharField(max_length=50)),
+                ("email", models.EmailField(max_length=254)),
+                ("address", models.CharField(max_length=250)),
+                ("postal_code", models.CharField(max_length=20)),
+                ("city", models.CharField(max_length=100)),
+                ("created", models.DateTimeField(auto_now_add=True)),
+                ("updated", models.DateTimeField(auto_now=True)),
+                ("paid", models.BooleanField(default=False)),
+                (
+                    "shipping_status",
+                    models.CharField(
+                        choices=[
+                            ("Pendiente", "Pendiente"),
+                            ("Enviado", "Enviado"),
+                            ("Entregado", "Entregado"),
+                        ],
+                        default="Pendiente",
+                        max_length=20,
+                    ),
+                ),
+                (
+                    "payment_method",
+                    models.CharField(
+                        choices=[
+                            ("Tarjeta", "Tarjeta"),
+                            ("Contra-reembolso", "Contra-reembolso"),
+                        ],
+                        max_length=20,
+                    ),
+                ),
             ],
             options={
-                'ordering': ['-created'],
+                "ordering": ["-created"],
             },
         ),
         migrations.CreateModel(
-            name='OrderItem',
+            name="OrderItem",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('price', models.DecimalField(decimal_places=2, max_digits=10)),
-                ('quantity', models.PositiveIntegerField(default=1)),
-                ('order', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='items', to='order.order')),
-                ('product', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='order_items', to='product.product')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("price", models.DecimalField(decimal_places=2, max_digits=10)),
+                ("quantity", models.PositiveIntegerField(default=1)),
+                (
+                    "order",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="items",
+                        to="order.order",
+                    ),
+                ),
+                (
+                    "product",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="order_items",
+                        to="product.product",
+                    ),
+                ),
             ],
         ),
         migrations.AddIndex(
-            model_name='order',
-            index=models.Index(fields=['-created'], name='order_order_created_708daa_idx'),
+            model_name="order",
+            index=models.Index(
+                fields=["-created"], name="order_order_created_708daa_idx"
+            ),
         ),
         migrations.AddField(
-            model_name='claim',
-            name='order',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='order', to='order.order'),
+            model_name="claim",
+            name="order",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="order",
+                to="order.order",
+            ),
         ),
     ]
