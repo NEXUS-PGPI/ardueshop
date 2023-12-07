@@ -29,8 +29,7 @@
             </form> 
             {% else %}
             <a href="{% url "product:catalogue" %}" class="btn btn-primary">Volver a la tienda</a>
-            {% if not user.is_autenticated %}
-                <a href="{% url "order:order_status" request.session.order_id %}" class="btn btn-primary">Ver mi pedido</a>
+            <a href="{% url "order:order_status" request.session.order_id %}" class="btn btn-primary">Ver mi pedido</a>
             {% endif %}
         </div>
     </div>
