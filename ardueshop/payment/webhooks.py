@@ -29,16 +29,18 @@ def stripe_webhook(request):
                 order = Order.objects.get(id=session.client_reference_id)
             except Order.DoesNotExist:
                 return HttpResponse(status=404)
-            # mark order as paid
+            # Mark order as paid
             order.paid = True
-            # mark order as shipped
+            # Mark order as shipped
             order.shipping_status = "Enviado"
-            # store Stripe payment ID
+            # Store Stripe payment ID
             order.stripe_id = session.payment_intent
             order.save()
-            # update product stock
+            # Update product stock
             for item in order.items.all():
                 item.product.stock -= item.quantity
                 item.product.save()
+            # Send confirmation email
+            order.send_confirmation_email()
 
     return HttpResponse(status=200)

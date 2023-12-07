@@ -58,6 +58,8 @@ def order_create(request):
                 for item in order.items.all():
                     item.product.stock -= item.quantity
                     item.product.save()
+                # Send confirmation email
+                order.send_confirmation_email()
                 return redirect(reverse("order:order_placed"))
 
     else:
