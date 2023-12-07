@@ -6,11 +6,13 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from decimal import Decimal
 from .models import Claim, OrderItem, Order
-from .forms import OrderCreateForm, ClaimForm
+from .forms import OrderCreateForm, ClaimForm, ClaimResponseForm
 from payment.forms import SaveDataForm
 from cart.cart import Cart
 from authentication.models import ArduUser
 import stripe
+from django.contrib.auth.decorators import login_required
+
 
 # create the Stripe instance
 stripe.api_key = settings.STRIPE_SECRET_KEY
@@ -65,6 +67,8 @@ def order_create(request):
                 for item in order.items.all():
                     item.product.stock -= item.quantity
                     item.product.save()
+                # Send confirmation email
+                order.send_confirmation_email()
                 return redirect(reverse("order:order_placed"))
 
     else:
@@ -145,8 +149,36 @@ def new_claim(request, order_id):
 
 
 def claim(request, claim_id):
-    claim = Claim.objects.get(id=claim_id)
-    return render(request, "order/claim.html", {"claim": claim})
+    if request.method == "POST":
+        user = request.user
+        if user.is_staff:
+            form = ClaimResponseForm(request.POST)
+            if form.is_valid():
+                claim = Claim.objects.get(id=claim_id)
+                claim.response = form.cleaned_data.get('response')
+                claim.claim_status = "Atendida"
+                claim.save()
+                return redirect("order:claim", claim_id=claim.id)
+            
+    else:
+        claim = Claim.objects.get(id=claim_id)
+        user = request.user
+        form = None
+        if user.is_staff:
+            form = ClaimResponseForm()
+    return render(request, "order/claim.html", {"claim": claim, "form": form})
+
+
+@login_required(login_url="/auth/login")
+def list_claims(request):
+    user = request.user
+    if user.is_staff:
+        claims = Claim.objects.all()
+
+        return render(request, "order/claim_listing.html", {"claims": claims})
+    else:
+        return redirect("/auth/login")
+    
 
 
 # Auxiliar functions:

@@ -8,11 +8,24 @@
 {% block content %}
 
 <div class="container" style="padding-top: 20px;">
+  <h4>Fecha de creación</h4>
+  <time> {{claim.creation_date}} </time>
+  
   <h4>Descripción</h4>
   <p> {{claim.comment}} </p>
   
-  <h4>Fecha de creación</h4>
-  <time> {{claim.creation_date}} </time>
-</form>
+  {% if claim.claim_status == "Atendida" %}
+  <h4>Respuesta</h4>
+  <p> {{claim.response}} </p>
+  {% endif%}
+
+  {% if user.is_staff and claim.claim_status == "Pendiente"%}
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-secondary me-3">Enviar Respuesta</button>
+  </form>
+  {% endif %}
+</div>
 
 {% endblock %}

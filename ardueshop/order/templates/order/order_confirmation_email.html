@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+    <h2>¡Hola, {{ order.first_name }}!</h2>
+
+    <p>Tu pedido con número de seguimiento {{ order.id }} ha sido recibido. ¡Gracias por comprar con nosotros!</p>
+
+    <h3>Detalles del pedido:</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Precio unitario</th>
+                <th>Cantidad</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in order.items.all %}
+            <tr>
+                <td>{{ item.product.name }}</td>
+                <td>{{ item.price }} €</td>
+                <td>{{ item.quantity }}</td>
+                <td>{{ item.get_cost }} €</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% if order.get_shipping_cost != 0 %}
+    <p><strong>Coste del envío:</strong> {{ order.get_shipping_cost }} €</p>
+    {% endif %}
+
+    <p><strong>Importe total:</strong> {{ order.get_total_cost }} €</p>
+
+    {% if order.shipping_method == 'Entrega estándar' %}
+    <p><strong>Dirección de entrega:</strong> {{ order.address }}, {{ order.city }}, {{ order.postal_code }}</p>
+    {% else %}
+    <p><strong>Puede recoger su pedido en nuestra tienda:</strong> Calle San Fernando, 4, 41004, Sevilla</p>
+    {% endif %}
+
+    {% if order.payment_method == 'Tarjeta' %}
+    <p><strong>Método de pago:</strong> Tarjeta</p>
+    {% else %}
+    <p><strong>Método de pago:</strong> Contra-reembolso (deberás pagar en efectivo al recibir el pedido)</p>
+    {% endif %}
+
+    <p>Gracias nuevamente por tu compra.</p>
+
+</body>
+
+</html>

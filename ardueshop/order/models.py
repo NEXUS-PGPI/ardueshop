@@ -1,7 +1,10 @@
 from django.db import models
-
-from django.db import models
+from django.core.mail import send_mail, EmailMultiAlternatives
+from django.template.loader import render_to_string
+from decouple import config
 from product.models import Product
+
+from django.utils.html import strip_tags
 
 
 class Order(models.Model):
@@ -27,7 +30,7 @@ class Order(models.Model):
 
     SHIPPING_METHOD_CHOICES = (
         ("Entrega estándar", "Entrega estándar"),
-        ("Recogida en tienda", "Recogida en tienda")
+        ("Recogida en tienda", "Recogida en tienda"),
     )
     shipping_method = models.CharField(
         max_length=25, choices=SHIPPING_METHOD_CHOICES, default="Entrega estándar"
@@ -38,7 +41,9 @@ class Order(models.Model):
         ("Contra-reembolso", "Contra-reembolso"),
     )
 
-    payment_method = models.CharField(max_length=20, choices=PAYMENT_METHOD_CHOICES)
+    payment_method = models.CharField(
+        max_length=20, choices=PAYMENT_METHOD_CHOICES, default="Tarjeta"
+    )
 
     class Meta:
         ordering = ["-created"]
@@ -47,8 +52,8 @@ class Order(models.Model):
         ]
 
     def get_total_cost(self):
-        return self.get_order_cost() + self.get_shipping_cost() 
-            
+        return self.get_order_cost() + self.get_shipping_cost()
+
     def get_order_cost(self):
         return sum(item.get_cost() for item in self.items.all())
 
@@ -58,6 +63,17 @@ class Order(models.Model):
         else:
             return 0
 
+    def send_confirmation_email(self):
+        subject = "ArduEshop - Confirmación de pedido"
+        html_message = render_to_string(
+            "order/order_confirmation_email.html", {"order": self}
+        )
+        plain_message = strip_tags(html_message)
+        email = EmailMultiAlternatives(
+            subject, plain_message, config("EMAIL_HOST_USER"), [self.email]
+        )
+        email.attach_alternative(html_message, "text/html")
+        email.send()
 
 
 class OrderItem(models.Model):
@@ -76,6 +92,22 @@ class Claim(models.Model):
     order = models.ForeignKey(Order, related_name="order", on_delete=models.CASCADE)
     comment = models.TextField()
     creation_date = models.DateTimeField(auto_now_add=True)
+    CLAIM_STATUS_CHOICES = (
+        ("Pendiente", "Pendiente"),
+        ("Atendida", "Atendida"),
+    )
+
+    claim_status = models.CharField(
+        max_length=20, choices=CLAIM_STATUS_CHOICES, default="Pendiente"
+    )
+
+    response = models.TextField(blank=True)
 
     def __str__(self):
         return f"Reclamacion #{self.id} - {self.order.email}"
+    
+    class Meta:
+        ordering = ["-creation_date"]
+        indexes = [
+            models.Index(fields=["-creation_date"]),
+        ]
