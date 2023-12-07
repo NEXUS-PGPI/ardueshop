@@ -1,61 +1,64 @@
-{% extends "base/base.html" %}
-{% load static %}
-{% block content %}
+{% extends "base/base.html" %} {% load static %} {% block title %}-
+Reclamaciones{% endblock %} {% block content %}
 <div class="container mt-4">
-    <div class="mb-3">
-        <label for="statusFilter" class="form-label">Filtrar por estado:</label>
-        <select id="statusFilter">
-            <option value="all">Todas</option>
-            <option value="Pendiente">Pendiente</option>
-            <option value="Atendida">Atendida</option>
-        </select>    </div>
-    <table class="table" id="claimTable">
-        <thead>
-            <tr>
-                <th>Pedido</th>
-                <th>Detalles</th>
-                <th>Estado</th>
-                <th>Fecha</th>
-                <th>Acción</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% if not claims %}
-            <tr><td colspan="5">No hay reclamaciones</td></tr>
-            {% endif %}
-            {% for claim in claims %}
-            <tr data-category="{{ claim.claim_status }}">
-                <td>{{ claim.order.id }}</td>
-                <td>{{ claim.comment }}</td>
-                <td>{{ claim.claim_status }}</td>
-                <td>{{ claim.creation_date }}</td>
-                <td>
-                    <a href="/order/claim/{{ claim.id }}"> Gestionar </a>
-                </td>
-                
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+  <div class="mb-3">
+    <label for="statusFilter" class="form-label">Filtrar por estado:</label>
+    <select id="statusFilter">
+      <option value="all">Todas</option>
+      <option value="Pendiente">Pendiente</option>
+      <option value="Atendida">Atendida</option>
+    </select>
+  </div>
+  <table class="table" id="claimTable">
+    <thead>
+      <tr>
+        <th>Pedido</th>
+        <th>Detalles</th>
+        <th>Estado</th>
+        <th>Fecha</th>
+        <th>Acción</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% if not claims %}
+      <tr>
+        <td colspan="5">No hay reclamaciones</td>
+      </tr>
+      {% endif %} {% for claim in claims %}
+      <tr data-category="{{ claim.claim_status }}">
+        <td>{{ claim.order.id }}</td>
+        <td>{{ claim.comment }}</td>
+        <td>{{ claim.claim_status }}</td>
+        <td>{{ claim.creation_date }}</td>
+        <td>
+          <a href="/order/claim/{{ claim.id }}"> Gestionar </a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 </div>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const statusFilter = document.getElementById('statusFilter');
-        const tableRows = document.querySelectorAll('#claimTable tbody tr');
-    
-        statusFilter.addEventListener('change', function() {
-            const selectedStatus = statusFilter.value;
-            
-            tableRows.forEach(row => {
-                if (selectedStatus === 'all' || row.getAttribute('data-category') === selectedStatus) {
-                    row.style.display = 'table-row';
-                } else {
-                    row.style.display = 'none';
-                }
-            });
-        });
+  document.addEventListener("DOMContentLoaded", function () {
+    const statusFilter = document.getElementById("statusFilter");
+    const tableRows = document.querySelectorAll("#claimTable tbody tr");
+
+    statusFilter.addEventListener("change", function () {
+      const selectedStatus = statusFilter.value;
+
+      tableRows.forEach((row) => {
+        if (
+          selectedStatus === "all" ||
+          row.getAttribute("data-category") === selectedStatus
+        ) {
+          row.style.display = "table-row";
+        } else {
+          row.style.display = "none";
+        }
+      });
     });
+  });
 </script>
 
 {% endblock %}

@@ -1,91 +1,87 @@
-{% extends 'base/base.html' %}
-
-{% load static %}
-
-{% block title %}
-  Pedidos
-{% endblock %}
-
-{% block content %}
-
-{% if orders.count == 0 %}
-  <div class="container text-center" style="padding-top: 20px;">
-    <h4>No hay pedidos</h4>
-  </div>
+{% extends 'base/base.html' %} {% load static %} {% block title %} - Pedidos {%
+endblock %} {% block content %} {% if orders.count == 0 %}
+<div class="container text-center" style="padding-top: 20px">
+  <h4>No hay pedidos</h4>
+</div>
 {% endif %}
 
-<div class="container" style="padding-top: 20px;">
+<div class="container" style="padding-top: 20px">
   <div class="mb-3">
     <label for="statusFilter" class="form-label">Filtrar por estado:</label>
     <select id="statusFilter">
-        <option value="all">Todas</option>
-        <option value="Pendiente">Pendiente</option>
-        <option value="Enviado">Enviado</option>
-        <option value="Entregado">Entregado</option>
-    </select>    
+      <option value="all">Todas</option>
+      <option value="Pendiente">Pendiente</option>
+      <option value="Enviado">Enviado</option>
+      <option value="Entregado">Entregado</option>
+    </select>
   </div>
   <table class="table table-striped" id="orderTable">
     <thead>
-    <tr>
-      <th>Identificador</th>
-      <th>Correo electrónico</th>
-      <th>Fecha de creación</th>
-      <th>Estado</th>
-      <th>Pagado</th>
-      <th>Método de envío</th>
-      <th>Acción</th>
-    </tr>
+      <tr>
+        <th>Identificador</th>
+        <th>Correo electrónico</th>
+        <th>Fecha de creación</th>
+        <th>Estado</th>
+        <th>Pagado</th>
+        <th>Método de envío</th>
+        <th>Acción</th>
+      </tr>
     </thead>
     <tbody>
-    {% for order in orders %}
-    <tr data-category="{{ order.shipping_status }}">
-      <td>
-        <p> Pedido {{order.id}} </p>
-      </td>
-      <td>
-        <p> {{order.email}} </p>
-      </td>
-      <td>
-        <time datetime="{{order.created|date:'d/M/y h:m'}}">{{order.created|date:'d/M/y h:m'}}</time>
-      </td>
-      <td>
-        <p> {{order.shipping_status}} </p>
-      </td>
-      <td>
-        {% if order.paid %}
+      {% for order in orders %}
+      <tr data-category="{{ order.shipping_status }}">
+        <td>
+          <p>Pedido {{order.id}}</p>
+        </td>
+        <td>
+          <p>{{order.email}}</p>
+        </td>
+        <td>
+          <time datetime="{{order.created|date:'d/M/y h:m'}}"
+            >{{order.created|date:'d/M/y h:m'}}</time
+          >
+        </td>
+        <td>
+          <p>{{order.shipping_status}}</p>
+        </td>
+        <td>
+          {% if order.paid %}
           <p>Si</p>
-        {% else %}
+          {% else %}
           <p>No</p>
-        {% endif %}
-      </td>
-      <td>
-        <p> {{order.shipping_method}} </p>
-      </td>
-      <td>
-        <a href="/admin/order/order/{{ order.id }}"> Gestionar </a>
-    </td>
-    </tr>
-    {% endfor %}
-  </tbody>
+          {% endif %}
+        </td>
+        <td>
+          <p>{{order.shipping_method}}</p>
+        </td>
+        <td>
+          <a href="/admin/order/order/{{ order.id }}"> Gestionar </a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
   </table>
 </div>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function() {
-      const statusFilter = document.getElementById('statusFilter');
-      const tableRows = document.querySelectorAll('#orderTable tbody tr');
+  document.addEventListener("DOMContentLoaded", function () {
+    const statusFilter = document.getElementById("statusFilter");
+    const tableRows = document.querySelectorAll("#orderTable tbody tr");
 
-      statusFilter.addEventListener('change', function() {
-          const selectedStatus = statusFilter.value;
+    statusFilter.addEventListener("change", function () {
+      const selectedStatus = statusFilter.value;
 
-          tableRows.forEach(row => {
-              if (selectedStatus === 'all' || row.getAttribute('data-category') === selectedStatus) {
-                  row.style.display = 'table-row';
-              } else {
-                  row.style.display = 'none';
-              }
-          });
+      tableRows.forEach((row) => {
+        if (
+          selectedStatus === "all" ||
+          row.getAttribute("data-category") === selectedStatus
+        ) {
+          row.style.display = "table-row";
+        } else {
+          row.style.display = "none";
+        }
       });
+    });
   });
 </script>
 {% endblock %}
