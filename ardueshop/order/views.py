@@ -104,8 +104,14 @@ def order_create(request):
     return render(request, "order/create.html", {"form": form, "cart": cart})
 
 def order_status(request, id):
-    order = get_object_or_404(Order, id=id)
+    try:
+        order = Order.objects.get(id=id)
+    except Order.DoesNotExist:
+        return redirect('order_not_found')
     return render(request, "order/order_status.html", {"order": order})
+
+def order_not_found(request):
+    return render(request, "order/order_not_found.html")
 
 def order_placed(request):
     order = Order.objects.get(id=request.session.get("order_id"))
