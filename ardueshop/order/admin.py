@@ -16,6 +16,8 @@ class OrderAdmin(admin.ModelAdmin):
         "city",
         "paid",
         "shipping_status",
+        "shipping_method",
+        "payment_method",
         "created",
         "updated",
     ]
