@@ -12,6 +12,7 @@ class OrderCreateForm(forms.ModelForm):
             "address",
             "postal_code",
             "city",
+            "shipping_method",
             "payment_method",
         ]
         labels = {
@@ -21,6 +22,7 @@ class OrderCreateForm(forms.ModelForm):
             "address": "Dirección",
             "postal_code": "Código Postal",
             "city": "Ciudad",
+            "shipping_method": "Método de entrega",
             "payment_method": "Método de Pago",
         }
 

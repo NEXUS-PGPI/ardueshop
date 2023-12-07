@@ -25,6 +25,7 @@
       <th>Fecha de creación</th>
       <th>Estado</th>
       <th>Pagado</th>
+      <th>Método de envío</th>      
     </tr>
     <tr>
       <td>
@@ -51,6 +52,9 @@
         {% else %}
           <p>No</p>
         {% endif %}
+      </td>
+      <td>
+        <p> {{order.shipping_method}} </p>
       </td>
     </tr>
     <tr>

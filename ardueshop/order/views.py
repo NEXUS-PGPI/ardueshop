@@ -60,6 +60,8 @@ def order_create(request):
                 for item in order.items.all():
                     item.product.stock -= item.quantity
                     item.product.save()
+                # Send confirmation email
+                order.send_confirmation_email()
                 return redirect(reverse("order:order_placed"))
 
     else:
@@ -203,7 +205,7 @@ def payment_process(request, order):
             }
         )
 
-    if order.get_order_cost() < 50:
+    if order.get_total_cost() < 50 and order.shipping_method == "Entrega estándar":
         session_data["line_items"].append(
             {
                 "price_data": {
