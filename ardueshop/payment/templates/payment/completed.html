@@ -8,11 +8,10 @@
 <div class="container mt-4">
     <div class="card text-center">
         <div class="card-body">
-            <h1 class="card-title">¡Pago Completado! El pedido con id: {{ request.session.order_id }} ha sido completado con éxito.</h1>
+            <h1 class="card-title">¡Pago completado! El ID para el seguimiento de tu pedido es {{request.session.order_id}}</h1>
             <p class="card-text"> Puedes consultar el estado de tu pedido en
-                <a href="http://127.0.0.1:8000/order/{{request.session.order_id}}/">este enlace</a>.
+                <a href="{% url "order:my_orders" %}">este enlace</a>.
             </p>
-
             <p class="card-text">Gracias por tu compra.</p>
             <p class="card-text">Recibirás un correo electrónico de confirmación pronto.</p>
 

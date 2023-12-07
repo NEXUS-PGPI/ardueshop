@@ -8,9 +8,7 @@
     {% include 'order/id_search.html' %}
 
     <div class="container text-center" style="padding-top: 20px;">
-        <h1 class="mb-5">Acceso denegado</h1>
-
-        <h4>Necesitas autenticarte para acceder a los pedidos</h4>
+        <h4 class="mb-2">Necesitas autenticarte para acceder al listado de tus pedidos</h4>
         <a href="{% url 'authentication:login' %}" class="btn btn-primary">Acceder</a>
         <a href="{% url 'authentication:signup' %}" class="btn btn-primary">Registrarse</a>
     </div>
