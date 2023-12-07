@@ -62,6 +62,7 @@
     <table class="table table-striped">
       <tr>
         <th>Reclamaciones</th>
+        <th>Estado</th>
       </tr>
       {% if order.claims.all.count == 0 %}
         <tr>
@@ -72,6 +73,7 @@
         {% if claim != None %}
           <tr>
             <td><a href="{% url 'order:claim' claim_id=claim.id %}" style="color: black;">{{ claim.comment }}</a></td>
+            <td>{{ claim.claim_status }}</td>
           </tr>
         {% endif %}
       {% endfor %}
