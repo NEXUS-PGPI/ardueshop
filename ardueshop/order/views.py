@@ -28,6 +28,13 @@ def my_orders(request):
     else:
         return render(request, "order/not_authenticated_user.html")
 
+def all_orders(request):
+    if request.user.is_authenticated and request.user.is_staff:
+        orders = Order.objects.all()
+        return render(request, "order/all_orders.html", {"orders": orders})
+    else:
+        return render(request, "order/not_authenticated_user.html")
+    
 
 def order_create(request):
     cart = Cart(request)
