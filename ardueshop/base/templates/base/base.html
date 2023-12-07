@@ -59,6 +59,17 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav me-auto">
+          {% if user.is_staff %}
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Administración
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="adminDropdown">
+              <li><a class="dropdown-item" href="/order/claims/">Reclamaciones</a></li>
+              <li><a class="dropdown-item" href="/order/all_orders/">Pedidos</a></li>
+            </ul>
+          </li>
+          {% endif %}
           <li class="nav-item">
             <a class="nav-link" href="/catalogue">Catálogo</a>
           </li>
