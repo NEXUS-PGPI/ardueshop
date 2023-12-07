@@ -8,3 +8,6 @@ def home(request):
 
 def about(request):
     return render(request, "base/about.html")
+def order_not_found(request):
+    return render(request, "order/order_not_found.html")
+

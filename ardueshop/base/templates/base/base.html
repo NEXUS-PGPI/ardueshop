@@ -1,127 +1,136 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>{% block title %}{% endblock %}</title>
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+    <title>{% block title %}{% endblock %}</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+            integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+            integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+            crossorigin="anonymous"></script>
 
-  <!-- Add a link to Google Fonts to import the desired font -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Add a link to Google Fonts to import the desired font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 
-  <!-- Add a link to the icons from Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
+    <!-- Add a link to the icons from Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
 
-  <style>
-      /* Apply the font to specific elements */
-      body {
-          font-family: 'Roboto', sans-serif;
-          min-height: 100vh;
-          display: flex;
-          flex-direction: column;
-      }
-      h1,
-      h2,
-      h3,
-      h4,
-      h5,
-      h6,
-      a {
-          font-family: 'Roboto', sans-serif;
-      }
+    <style>
+        /* Apply the font to specific elements */
+        body {
+            font-family: 'Roboto', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
 
-      main {
-          flex: 1;
-      }
-  
-  </style>
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        a {
+            font-family: 'Roboto', sans-serif;
+        }
 
-  {% load bootstrap5 %}
-  {% bootstrap_css %}
-  {% bootstrap_javascript %}
-  {% load static %}
-  
+        main {
+            flex: 1;
+        }
+
+    </style>
+
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    {% load static %}
+
 </head>
-  
-<body>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="/">
-        <img src="{% static 'LogoArduEshop.png' %}" alt="US" class="img-fluid col-md-3" style="width: 200px;">
-      </a>
 
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav me-auto">
-          {% if user.is_staff %}
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Administración
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="adminDropdown">
-              <li><a class="dropdown-item" href="/order/claims/">Reclamaciones</a></li>
-              <li><a class="dropdown-item" href="/order/all_orders/">Pedidos</a></li>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">
+            <img src="{% static 'LogoArduEshop.png' %}" alt="US" class="img-fluid col-md-3" style="width: 200px;">
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                {% if user.is_staff %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            Administración
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="adminDropdown">
+                            <li><a class="dropdown-item" href="/order/claims/">Reclamaciones</a></li>
+                            <li><a class="dropdown-item" href="/order/all_orders/">Pedidos</a></li>
+                        </ul>
+                    </li>
+                {% endif %}
+                <li class="nav-item">
+                    <a class="nav-link" href="/catalogue">Catálogo</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/order/my_orders">Pedidos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/about">Sobre Nosostros</a>
+                </li>
             </ul>
-          </li>
-          {% endif %}
-          <li class="nav-item">
-            <a class="nav-link" href="/catalogue">Catálogo</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/order/my_orders">Pedidos</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/about">Sobre Nosostros</a>
-          </li>
-        </ul>
-        <ul class="navbar-nav ml-auto">
-          {% if user.is_authenticated %}
-            <div class="d-flex align-items-center">
-              <p class="nav-link m-0 me-3">
-                  <strong>{{ user.email }}</strong>
-              </p>
-              <a class="btn btn-secondary me-3" href="/auth/logout">Cerrar Sesion</a>
-            </div>
-          {% endif %}
-          {% if not user.is_authenticated %}
-            <div class="d-flex align-items-center">
-              <a class="btn btn-secondary me-3" href="/auth/login">Iniciar Sesion</a>
-              <a class="btn btn-secondary me-3" href="/auth/signup">Registrarse</a>
-            </div>
-          {% endif %}
-          {% if cart|length > 0 %}
-            <div class="d-flex align-items-center">
-              <a class="btn btn-light me-3" href="/order/create">Compra rápida</a>
-            </div>
-          {% endif %}
-          <li class="nav-item">
-            <a class="nav-link" href="/cart">
-              <img src="{% static 'img/cart.png' %}" alt="Cart" width="40" height="40">
-              <span class="badge bg-secondary">
+            <ul class="navbar-nav ml-auto">
+                {% if user.is_authenticated %}
+                    <div class="d-flex align-items-center">
+                        <p class="nav-link m-0 me-3">
+                            <strong>{{ user.email }}</strong>
+                        </p>
+                        <a class="btn btn-secondary me-3" href="/auth/logout">Cerrar Sesion</a>
+                    </div>
+                {% endif %}
+                {% if not user.is_authenticated %}
+                    <div class="d-flex align-items-center">
+                        <a class="btn btn-secondary me-3" href="/auth/login">Iniciar Sesion</a>
+                        <a class="btn btn-secondary me-3" href="/auth/signup">Registrarse</a>
+                    </div>
+                {% endif %}
+                {% if cart|length > 0 %}
+                    <div class="d-flex align-items-center">
+                        <a class="btn btn-light me-3" href="/order/create">Compra rápida</a>
+                    </div>
+                {% endif %}
+                <li class="nav-item">
+                    <a class="nav-link" href="/cart">
+                        <img src="{% static 'img/cart.png' %}" alt="Cart" width="40" height="40">
+                        <span class="badge bg-secondary">
                 {% with total_items=cart|length %}
-                  {% if total_items > 0 %}
-                    {{ total_items }}
-                  {% else %}
-                    0
-                  {% endif %}
+                    {% if total_items > 0 %}
+                        {{ total_items }}
+                    {% else %}
+                        0
+                    {% endif %}
                 {% endwith %}
-              </span>              
-            </a>
-          </li>
-        </ul>
-      </div>
-    </nav>
-    <main>
-      {% block content %}
-      {% endblock %}
-  </main>
-  <footer class="container-fluid text-white text-center py-3" style="background-color: #ececec;">
+              </span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+</nav>
+<main>
+    {% block content %}
+    {% endblock %}
+</main>
+<footer class="container-fluid text-white text-center py-3" style="background-color: #ececec;">
     <img src="{% static 'US-marca-digital_0.png' %}" alt="US" class="img-fluid col-md-2">
     <p class="mt-3 text-dark">© 2023 US - Todos los derechos reservados</p>
-  </footer>
+</footer>
 </body>
 </html>

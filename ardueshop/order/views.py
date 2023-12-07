@@ -1,12 +1,14 @@
-from datetime import timezone
-from django.shortcuts import render, redirect
+
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.contrib import messages
 from django.conf import settings
 from django.contrib.auth.models import User
 from decimal import Decimal
 from .models import Claim, OrderItem, Order
-from .forms import OrderCreateForm, ClaimForm, ClaimResponseForm
+from .forms import  EmailPickerForm, OrderCreateForm, ClaimForm, ClaimResponseForm
+from datetime import timezone
+
 from payment.forms import SaveDataForm
 from cart.cart import Cart
 from authentication.models import ArduUser
@@ -101,6 +103,15 @@ def order_create(request):
             form = OrderCreateForm()
     return render(request, "order/create.html", {"form": form, "cart": cart})
 
+def order_status(request, id):
+    try:
+        order = Order.objects.get(id=id)
+    except Order.DoesNotExist:
+        return redirect('order_not_found')
+    return render(request, "order/order_status.html", {"order": order})
+
+def order_not_found(request):
+    return render(request, "order/order_not_found.html")
 
 def order_placed(request):
     order = Order.objects.get(id=request.session.get("order_id"))
