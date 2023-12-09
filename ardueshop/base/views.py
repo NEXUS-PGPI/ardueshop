@@ -33,7 +33,7 @@ def sales_report(request):
         number_of_orders_last_30_days = orders_last_30_days.count()
 
         # Calculate the total price and count of orders
-        total_price_last_30_days = sum(order.get_order_cost() for order in orders_last_30_days)
+        total_price_last_30_days = sum(order.get_total_cost() for order in orders_last_30_days)
 
         if number_of_orders_last_30_days > 0:
             average_price_last_30_days = total_price_last_30_days / number_of_orders_last_30_days
@@ -41,7 +41,7 @@ def sales_report(request):
             average_price_last_30_days ="Sin pedidos en los últimos 30 días"
         
         all_orders = Order.objects.all()
-        total_benefits = sum(order.get_order_cost() for order in all_orders)
+        total_benefits = sum(order.get_total_cost() for order in all_orders)
 
         preferred_shipping_last_30_days = orders_last_30_days.values('shipping_method').annotate(shipping_count=Count('shipping_method')).order_by('-shipping_count').first()
 
