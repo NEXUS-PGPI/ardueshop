@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Formulario de búsqueda de pedidos</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+</head>
+<body>
+    <div class="container mt-4">
+        <h4 class="mb-2">Puedes ver el estado de tu pedido introduciendo su ID</h4>
+        <form method="get" class="d-flex" id="searchForm">
+            <div class="input-group">
+                <input type="text" name="id" class="form-control" placeholder="ID del Pedido" required pattern="\d+">
+                <button type="submit" class="btn btn-primary" id="searchButton">Buscar</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $('#searchForm').on('submit', function (e) {
+                var id = $('input[name="id"]').val();
+
+                    e.preventDefault();
+                    window.location.href = 'http://127.0.0.1:8000/order/' + id;
+
+            });
+
+        });
+    </script>
+</body>
+</html>
+
+
