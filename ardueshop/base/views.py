@@ -5,17 +5,15 @@ from datetime import timedelta
 from django.db.models import Count, Sum
 from django.utils import timezone
 
-
-
 def home(request):
+    products = Product.objects.all().order_by("?")[:3]
     categories = Category.objects.all()
-    return render(request, "base/home.html", {"categories": categories})
+    return render(request, "base/home.html", {"categories": categories, "products": products})
 
 def about(request):
     return render(request, "base/about.html")
 def order_not_found(request):
     return render(request, "order/order_not_found.html")
-
 
 def sales_report(request):
     user = request.user
@@ -74,4 +72,3 @@ def sales_report(request):
         })
     else:
         return redirect("/auth/login")        # Get the current date and time in the current time zone
-        
