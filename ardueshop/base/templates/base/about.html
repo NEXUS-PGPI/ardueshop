@@ -1,0 +1,27 @@
+{% extends 'base/base.html' %}
+
+{% block title %}- Sobre Nosotros{% endblock %}
+
+{% block content %}
+  <div class="container" style="padding-top: 20px; display: flex;">
+
+    <!-- Contenedor para el video (a la izquierda) -->
+    <div style="flex: 1; padding: 10px;">
+      <video width="560" height="315" autoplay loop muted style="width: 100%;">
+        <source src="../../../static/video_us.mp4" type="video/mp4">
+      </video>
+    </div>
+
+    <!-- Contenedor para el texto (a la derecha) -->
+    <div style="flex: 1; border: 1px solid black; padding: 20px;">
+      <h4>Sobre Nosotros</h4>
+      <p>Ardueshop es una tienda online de productos electrónicos, en la que podrás encontrar todo tipo de componentes electrónicos, desde placas Arduino hasta sensores y actuadores.</p>
+
+      <h4>Contacto</h4>
+      <p>Si tienes cualquier duda o sugerencia, puedes ponerte en contacto a través de nuestra <a href="https://www.us.es">página web</a></p>
+      <p>Teléfono: (+34) 954 55 10 00</p>
+      <p>Dirección: Calle San Fernando, 4, 41004, Sevilla</p>
+    </div>
+
+  </div>
+{% endblock %}

@@ -1,0 +1,111 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block title %}- Catálogo{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="dropdown">
+                {% if search %}
+                    <div class="d-flex align-items-center gap-2">
+                        <p class="mb-0">Resultados de la búsqueda para: </p>
+                        {% if product_name %}
+                            <span class="badge bg-secondary text-light">Nombre: {{ product_name }}</span>
+                        {% endif %}
+                        {% if product_category %}
+                            <span class="badge bg-secondary text-light">Categoría: {{ product_category }}</span>
+                        {% endif %}
+                        {% if min_price %}
+                            <span class="badge bg-secondary text-light">Precio mínimo: {{ min_price }} €</span>
+                        {% endif %}
+                        {% if max_price %}
+                            <span class="badge bg-secondary text-light">Precio máximo: {{ max_price }} €</span>
+                        {% endif %}
+                        {% if not product_name and not product_category and not min_price and not max_price %}
+                            <span class="badge bg-secondary text-light">No se han aplicado filtros</span>
+                        {% endif %}
+                        <a class="link-dark" href="{% url 'home' %}">Volver a buscar</a>
+                    </div>
+                {% else %}
+                    <h3 class="mb-4">Catálogo de productos</h3>
+                    <a class="btn btn-secondary" href="{% url 'home' %}">Buscador de productos</a>
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuLink" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        Seleccione una categoría
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <a class="dropdown-item" href="#" data-category="Todas" onclick="filterProducts('Todas')">Todas</a>
+                        {% for category in categories %}
+                        <a class="dropdown-item" href="#" data-category="{{ category.name }}"
+                            onclick="filterProducts('{{ category.name }}')">{{ category.name }}</a>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        {% for product in products %}
+            <div class="col-md-3 mb-4 product-card" data-category="{{ product.category.name }}">
+                <div class="card">
+                    <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+                    <div class="card-body">
+                        <h5 class="card-title mb-0"><a class="text-dark" href="/product/{{ product.id }}">{{ product.name }}</a>
+                        </h5>
+                        <p class="card-text">{{ product.category.name }}</p>
+                        <div class="d-flex justify-content-between">
+                            <h6 class="mb-0">{{ product.price }} €</h6>
+                            {% if product.stock > 0 %}
+                            <div class="d-flex align-items-center gap-1">
+                                <i class="fas fa-check-circle text-success"></i>
+                                <h6 class="text-success mb-0">Disponible</h6>
+                            </div>
+                            {% else %}
+                            <div class="d-flex align-items-center gap-1">
+                                <i class="fas fa-times-circle text-danger"></i>
+                                <h6 class="text-danger mb-0">Agotado</h6>
+                            </div>
+                            {% endif %}
+                        </div>
+            
+                        <form class="add-to-cart-form mt-3" action="{% url 'cart:cart_add' product.id %}" method="post">
+                            {% csrf_token %}
+                            <div class="d-flex justify-content-between">
+                                <div class="input-group mt-2">
+                                    <label class="input-group-text" for="quantity_{{ product.id }}">Cantidad</label>
+                                    <input type="number" class="form-control" id="quantity_{{ product.id }}" name="quantity" min="1"
+                                        value="1">
+                                </div>
+                                <button type="submit" class="btn btn-success mt-2">Añadir</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-md-12">
+                <h3 class="text-center">No se han encontrado productos</h3>
+            </div>
+        {% endfor %}
+    </div>
+    </div>
+</div>
+
+<script>
+    function filterProducts(category) {
+        var productCards = document.querySelectorAll('.product-card');
+        productCards.forEach(function(card) {
+            if (category === 'Todas' || card.dataset.category === category) {
+                card.style.display = 'block';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    }
+</script>
+
+{% endblock %}

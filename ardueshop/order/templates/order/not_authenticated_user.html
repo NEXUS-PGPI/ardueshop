@@ -1,0 +1,15 @@
+{% extends 'base/base.html' %}
+
+{% block title %}
+  - Consulta de pedidos
+{% endblock %}
+
+{% block content %}
+    {% include 'order/id_search.html' %}
+
+    <div class="container text-center" style="padding-top: 20px;">
+        <h4 class="mb-2">Necesitas autenticarte para acceder al listado de tus pedidos</h4>
+        <a href="{% url 'authentication:login' %}" class="btn btn-primary">Acceder</a>
+        <a href="{% url 'authentication:signup' %}" class="btn btn-primary">Registrarse</a>
+    </div>
+{% endblock %}

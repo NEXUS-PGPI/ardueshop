@@ -1,0 +1,102 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block title %}
+    - Realizar pedido
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Realizar pedido</h1>
+    <div>
+        <h3>Tu pedido:</h3>
+        <ul class="list-group">
+            {% for item in cart %}
+            <li class="list-group-item">
+                {{ item.quantity }}x {{ item.product.name }}
+                <span class="float-end">{{ item.total_price }} €</span>
+            </li>
+            {% endfor %}
+
+            {% if cart.get_total_price_without_shipping < 50 %}
+            <li class="list-group-item">
+                Envio
+                <span class="float-end" id="shipping_cost"> 5 €</span>
+            </li>
+            {% else %}
+            <li class="list-group-item">
+                Envio
+                <span class="float-end" id="shipping_cost"> 0 €</span>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+    <div class="d-flex justify-content-between my-4">
+        <div class="col-md-3"></div>
+        <div class="col-md-4 border border-2 rounded p-3">
+            <p id="total_cost">Total: {{ cart.get_total_price }} €</p>
+            <form method="post" class="mt-4">
+                {% csrf_token %}
+                <div class="d-flex justify-content-between">
+                    <p>{{ form.email.label_tag }}</p>
+                    {% if user.is_authenticated %}
+                        <p>{{ form.email.value }}</p>
+                    {% else %}
+                        <p>{{ form.email }}</p>
+                    {% endif %}
+                </div>
+                <div class="d-flex justify-content-between">
+                    <p>{{ form.first_name.label_tag }}</p>
+                    <p>{{ form.first_name }}</p>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <p>{{ form.last_name.label_tag }}</p>
+                    <p>{{ form.last_name }}</p>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <p>{{ form.address.label_tag }}</p>
+                    <p>{{ form.address }}</p>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <p>{{ form.postal_code.label_tag }}</p>
+                    <p>{{ form.postal_code }}</p>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <p>{{ form.city.label_tag }}</p>
+                    <p>{{ form.city }}</p>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <p>{{ form.shipping_method.label_tag }}</p>
+                    <p onchange="checkShipping({{ cart.get_total_price_without_shipping }})">{{ form.shipping_method }}</p>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <p>{{ form.payment_method.label_tag }}</p>
+                    <p>{{ form.payment_method }}</p>
+                </div>
+                <p class="d-flex justify-content-center mt-3">
+                    <a href="{% url "cart:cart_detail" %}" class="btn btn-danger me-3">Volver a la cesta</a>
+                    <input type="submit" value="Confirmar" class="btn btn-primary">
+                </p>
+            </form>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+
+<script>
+    function checkShipping(price) {
+      if (price < 50) {
+          var selectedOption = document.getElementById("id_shipping_method").value;
+          var costText = document.getElementById("shipping_cost");
+          var totalCost = document.getElementById("total_cost");
+          if (selectedOption === "Entrega estándar") {
+            costText.textContent = " 5 €";
+            totalCost.textContent = "Total " + (price + 5).toString() + " €";
+          } else {
+            costText.textContent = " 0 €"; // Clear the text if another option is selected
+            totalCost.textContent = "Total " + price.toString() + " €";
+          }
+      }
+    }
+</script>
+
+{% endblock %}

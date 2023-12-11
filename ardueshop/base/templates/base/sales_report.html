@@ -1,0 +1,60 @@
+{% extends "base/base.html" %}
+{% load static %}
+{% block title %}- Gestión de ventas{% endblock %}
+{% block content %}
+    <div class="dashboard container mt-4">
+        <h2>Gestión de ventas</h2>
+        
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Número de pedidos (Últimos 30 días)</h5>
+                        <p class="card-text">{{ number_of_orders_last_30_days }}</p>
+                    </div>
+                </div>
+                
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Precio medio de pedidos (Últimos 30 días)</h5>
+                        <p class="card-text">{{ average_price_last_30_days|floatformat:2  }} €</p>
+                    </div>
+                </div>
+                
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Beneficios totales</h5>
+                        <p class="card-text">{{ total_benefits }} €</p>
+                    </div>
+                </div>
+                
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Beneficios (Últimos 30 días)</h5>
+                        <p class="card-text">{{ total_price_last_30_days }} €</p>
+                    </div>
+                </div>
+                
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Método de envío preferido (Últimos 30 días)</h5>
+                        <p class="card-text">{{ preferred_shipping_option }}</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Productos más populares (Últimos 30 días)</h5>
+                        <ol class="card-text">
+                            {% for product_details in popular_products %}
+                                <li><a href="/product/{{product_details.product.id}}">{{ product_details.product.name }}</a> - Cantidad vendida: {{ product_details.total_quantity }}</li>
+                            {% endfor %}
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

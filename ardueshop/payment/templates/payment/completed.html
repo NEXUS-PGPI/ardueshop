@@ -1,0 +1,37 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block title %}- Pago completado{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+    <div class="card text-center">
+        <div class="card-body">
+            <h1 class="card-title">¡Pago completado! El ID para el seguimiento de tu pedido es {{request.session.order_id}}</h1>
+            <p class="card-text"> Puedes consultar el estado de tu pedido en
+                <a href="{% url "order:my_orders" %}">este enlace</a>.
+            </p>
+            <p class="card-text">Gracias por tu compra.</p>
+            <p class="card-text">Recibirás un correo electrónico de confirmación pronto.</p>
+
+            {% if user.is_authenticated %}
+            <form method="post" class="form-check">
+                {% csrf_token %}
+                <div class="mb-4">
+                    {{ form.save_data_checkbox }}
+                    <label class="form-check-label" for="{{ form.save_data_checkbox.id_for_label }}">
+                        Guardar mis datos para futuras compras
+                    </label>
+                </div>
+                <input type="submit" value="Volver a la tienda" class="btn btn-primary">
+            </form> 
+            {% else %}
+            <a href="{% url "product:catalogue" %}" class="btn btn-primary">Volver a la tienda</a>
+            <a href="{% url "order:order_status" request.session.order_id %}" class="btn btn-primary">Ver mi pedido</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,111 @@
+{% extends 'base/base.html' %}
+
+{% load static %}
+
+{% block title %}
+  - Mis pedidos
+{% endblock %}
+
+{% block content %}
+
+{% if orders.count == 0 %}
+  <div class="container text-center" style="padding-top: 20px;">
+    <h4>No hay pedidos</h4>
+  </div>
+{% endif %}
+
+{% for order in orders %}
+<div class="container" style="padding-top: 20px;">
+  <table class="table table-striped">
+    <tr>
+      <th>Correo electrónico</th>
+      <th>Dirección</th>
+      <th>Ciudad</th>
+      <th>Código Postal</th>
+      <th>Fecha de creación</th>
+      <th>Estado</th>
+      <th>Pagado</th>
+      <th>Método de envío</th>      
+    </tr>
+    <tr>
+      <td>
+        <p> {{order.email}} </p>
+      </td>
+      <td>
+        <p> {{order.address}} </p>
+      </td>
+      <td>
+        <p> {{order.city}} </p>
+      </td>
+      <td>
+        <p> {{order.postal_code}} </p>
+      </td>
+      <td>
+        <time datetime="{{order.created|date:'d/M/y h:m'}}">{{order.created|date:'d/M/y h:m'}}</time>
+      </td>
+      <td>
+        <p> {{order.shipping_status}} </p>
+      </td>
+      <td>
+        {% if order.paid %}
+          <p>Si</p>
+        {% else %}
+          <p>No</p>
+        {% endif %}
+      </td>
+      <td>
+        <p> {{order.shipping_method}} </p>
+      </td>
+    </tr>
+    <tr>
+    </tr>
+    <table class="table table-striped">
+      <tr>
+        <th>Reclamaciones</th>
+        <th>Estado</th>
+      </tr>
+      {% if order.claims.all.count == 0 %}
+        <tr>
+          <td>No hay reclamaciones</td>
+        </tr>
+      {% endif %}
+      {% for claim in order.claims.all %}
+        {% if claim != None %}
+          <tr>
+            <td><a href="{% url 'order:claim' claim_id=claim.id %}" style="color: black;">{{ claim.comment }}</a></td>
+            <td>{{ claim.claim_status }}</td>
+          </tr>
+        {% endif %}
+      {% endfor %}
+    </table>
+    <a href="{% url 'order:do_claim' order_id=order.id %}" class="btn btn-secondary me-3">Nueva reclamación</a>
+
+    <!-- Espacio entre tablas -->
+    <p>
+
+
+    </p>
+    <!-- Espacio entre tablas -->
+
+    <table class="table table-striped">
+      <tr>
+        <th>Producto</th>
+        <th>Cantidad</th>
+        <th>Precio</th>
+      </tr>
+      {% for item in order.items.all %}
+        <tr>
+          <td>{{ item.product.name }}</td>
+          <td>{{ item.quantity }}</td>
+          <td>{{ item.price }} €</td>
+        </tr>
+      {% endfor %}
+      <tr>
+        <td><strong>Total: </strong></td>
+        <td></td>
+        <td><strong>{{ order.get_total_cost }} €</strong></td>
+  </table>
+  <hr>
+</div>
+{% endfor %}
+{% endblock %}
