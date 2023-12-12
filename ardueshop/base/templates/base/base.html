@@ -76,9 +76,11 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/catalogue">Catálogo</a>
                 </li>
+                {% if not user.is_staff %}
                 <li class="nav-item">
                     <a class="nav-link" href="/order/my_orders">Pedidos</a>
                 </li>
+                {% endif %}
                 <li class="nav-item">
                     <a class="nav-link" href="/about">Sobre Nosostros</a>
                 </li>
@@ -98,22 +100,25 @@
                         <a class="btn btn-secondary me-3" href="/auth/signup">Registrarse</a>
                     </div>
                 {% endif %}
-                {% if cart|length > 0 %}
-                    <div class="d-flex align-items-center">
-                        <a class="btn btn-light me-3" href="/order/create">Compra rápida</a>
-                    </div>
-                {% endif %}
-                <li class="nav-item">
-                    <a class="nav-link" href="/cart">
-                        <img src="{% static 'img/cart.png' %}" alt="Cart" width="40" height="40">
-                        <span class="badge bg-secondary">
-                {% with total_items=cart|length %}
-                    {% if total_items > 0 %}
-                        {{ total_items }}
-                    {% else %}
-                        0
+
+                {% if not user.is_staff %}
+                    {% if cart|length > 0 %}
+                        <div class="d-flex align-items-center">
+                            <a class="btn btn-light me-3" href="/order/create">Compra rápida</a>
+                        </div>
                     {% endif %}
-                {% endwith %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/cart">
+                            <img src="{% static 'img/cart.png' %}" alt="Cart" width="40" height="40">
+                            <span class="badge bg-secondary">
+                    {% with total_items=cart|length %}
+                        {% if total_items > 0 %}
+                            {{ total_items }}
+                        {% else %}
+                            0
+                        {% endif %}
+                    {% endwith %}
+                {% endif %}
               </span>
                     </a>
                 </li>

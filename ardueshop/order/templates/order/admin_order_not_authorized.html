@@ -1,0 +1,19 @@
+{% extends 'base/base.html' %}
+
+{% load static %}
+
+{% block title %}Admin not authorized{% endblock %}
+
+{% block content %}
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12 text-center" style="padding-top: 20px;">
+                <h3>El administrador no puede realizar pedidos</h3>
+                <p class="lead">Inicia sesión con un usuario que no sea el administrador para realizar pedidos</p>
+                <a class="btn btn-secondary btn-lg" href="/auth/login">Iniciar Sesion</a>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
