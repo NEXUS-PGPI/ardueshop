@@ -78,30 +78,33 @@ def order_create(request):
         for item in cart:
             if item["quantity"] > item["product"].stock:
                 no_stock_products.append(item["product"])
-        if len(no_stock_products) > 0:
-            messages.error(
-                request,
-                "No hay suficiente stock de los siguientes productos: {}".format(
-                    ", ".join([str(p) for p in no_stock_products])
-                ),
-            )
-            return redirect(reverse("cart:cart_detail"))
+        if not request.user.is_staff:
+            if len(no_stock_products) > 0:
+                messages.error(
+                    request,
+                    "No hay suficiente stock de los siguientes productos: {}".format(
+                        ", ".join([str(p) for p in no_stock_products])
+                    ),
+                )
+                return redirect(reverse("cart:cart_detail"))
 
-        if request.user.is_authenticated:
-            ardu_user = ArduUser.objects.get(user=request.user)
-            form = OrderCreateForm(
-                initial={
-                    "email": request.user.email,
-                    "first_name": request.user.first_name,
-                    "last_name": request.user.last_name,
-                    "address": ardu_user.address,
-                    "postal_code": ardu_user.postal_code,
-                    "city": ardu_user.city,
-                }
-            )
+            if request.user.is_authenticated:
+                ardu_user = ArduUser.objects.get(user=request.user)
+                form = OrderCreateForm(
+                    initial={
+                        "email": request.user.email,
+                        "first_name": request.user.first_name,
+                        "last_name": request.user.last_name,
+                        "address": ardu_user.address,
+                        "postal_code": ardu_user.postal_code,
+                        "city": ardu_user.city,
+                    }
+                )
+            else:
+                form = OrderCreateForm()
+            return render(request, "order/create.html", {"form": form, "cart": cart})
         else:
-            form = OrderCreateForm()
-    return render(request, "order/create.html", {"form": form, "cart": cart})
+            return render(request, "order/admin_order_not_authorized.html")
 
 def order_status(request, id):
     try:
