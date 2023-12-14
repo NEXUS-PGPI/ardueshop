@@ -1,0 +1,19 @@
+version: "3.10"
+
+services:
+  web:
+    container_name: ardueshop
+    image: ardueshop:latest
+    build: .
+    command: sh launch.sh
+    ports:
+      - "8000:8000"
+    expose:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    environment:
+      - DJANGO_SETTINGS_MODULE=ardueshop.settings
+      - DJANGO_SUPERUSER_USERNAME=${DJANGO_SUPERUSER_USERNAME}
+      - DJANGO_SUPERUSER_EMAIL=${DJANGO_SUPERUSER_EMAIL}
+      - DJANGO_SUPERUSER_PASSWORD=${DJANGO_SUPERUSER_PASSWORD}

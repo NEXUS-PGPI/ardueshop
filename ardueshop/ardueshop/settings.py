@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-import os, dj_database_url
+import os
 from pathlib import Path
 from decouple import config
 
@@ -29,7 +29,7 @@ SECRET_KEY = "django-insecure-t$#aj+y!1q)xm2t4ml2p1zeo+b(=4nu10t3cc(i24ir2)rx1)&
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -95,11 +95,10 @@ WSGI_APPLICATION = "ardueshop.wsgi.application"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    'default': dj_database_url.config(
-        # Feel free to alter this value to suit your needs.
-        default='$URL_DATABASE',
-        conn_max_age=600
-    )
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "ardueshop.db",
+    }
 }
 
 

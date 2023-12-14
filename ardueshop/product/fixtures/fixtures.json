@@ -1,0 +1,124 @@
+[
+    {
+      "model": "product.Category",
+      "pk": 1,
+      "fields": {
+        "name": "Placas"
+      }
+    },
+  
+    {
+      "model": "product.Category",
+      "pk": 2,
+      "fields": {
+        "name": "Sensores"
+      }
+    },
+  
+    {
+      "model": "product.Category",
+      "pk": 3,
+      "fields": {
+        "name": "Motores"
+      }
+    },
+  
+    {
+      "model": "product.category",
+      "pk": 4,
+      "fields": {
+        "name": "Otros"
+      }
+    },
+  
+    {
+      "model": "product.Product",
+      "pk": 1,
+      "fields": {
+        "name": "Arduino Uno Rev3",
+        "description": "Arduino UNO es la mejor placa para iniciarse en la electrónica y la programación. Si es tu primera experiencia jugueteando con la plataforma, la UNO es la placa más robusta con la que puedes empezar a jugar. La UNO es la placa más utilizada y documentada de toda la familia Arduino.",
+        "stock": 50,
+        "price": 24.0,
+        "image": "/product/arduino_uno.jpg",
+        "category": 1
+      }
+    },
+  
+    {
+      "model": "product.Product",
+      "pk": 2,
+      "fields": {
+        "name": "Arduino Mega 2560 Rev3",
+        "description": "Arduino Mega 2560 es una placa electrónica basada en el microcontrolador ATmega2560. Cuenta con 54 pines digitales de entrada/salida (de los cuales 15 se pueden usar como salidas PWM), 16 entradas analógicas, 4 UARTs (puertos serie de hardware), un oscilador de 16 MHz, una conexión USB, un conector de alimentación, un conector ICSP y un botón de reinicio.",
+        "stock": 0,
+        "price": 40.0,
+        "image": "/product/arduino_mega.jpg",
+        "category": 1
+      }
+    },
+  
+    {
+      "model": "product.Product",
+      "pk": 3,
+      "fields": {
+        "name": "Arduino Nano",
+        "description": "Arduino Nano es una pequeña y completa placa basada en el ATmega328 (Arduino Nano 3.x) o ATmega168 (Arduino Nano 2.x). Es muy parecida a la Arduino Duemilanove, pero en un formato mucho más reducido. La Arduino Nano puede ser alimentada a través del mini-B USB, con un regulador de 5V en la placa y un regulador separado de 3.3V para alimentar los pines más sensibles a voltajes. La Nano tiene una superficie de conexión mini-B USB para programarla y una superficie de conexión FTDI para alimentarla y programarla con un adaptador FTDI (no incluido).",
+        "stock": 19,
+        "price": 20.0,
+        "image": "/product/arduino_nano.jpg",
+        "category": 1
+      }
+    },
+  
+    {
+      "model": "product.Product",
+      "pk": 4,
+      "fields": {
+        "name": "Sensor de distancia por ultrasonidos HC-SR04",
+        "description": "El sensor de distancia por ultrasonidos HC-SR04 utiliza ultrasonidos para determinar la distancia a un objeto. Tiene dos transductores, uno emite una serie de pulsos de ultrasonidos y el otro los recibe. La distancia que recorre el sonido es la distancia que se quiere medir. El sensor mide el tiempo que tarda en llegar el eco y lo devuelve a la placa Arduino. Conociendo la velocidad del sonido, se puede calcular la distancia.",
+        "stock": 100,
+        "price": 2.0,
+        "image": "product/sensor_ultrasonidos.jpg",
+        "category": 2
+      }
+    },
+  
+    {
+      "model": "product.Product",
+      "pk": 5,
+      "fields": {
+        "name": "Módulo sensor de temperatura y humedad DHT11",
+        "description": "El módulo sensor de temperatura y humedad DHT11 permite medir la temperatura y la humedad relativa del ambiente. El sensor DHT11 es un sensor digital de bajo coste y muy fácil de usar. Es ideal para proyectos de monitorización del clima.",
+        "stock": 5,
+        "price": 2.0,
+        "image": "product/sensor_dht11.jpg",
+        "category": 2
+      }
+    },
+  
+    {
+      "model": "product.Product",
+      "pk": 6,
+      "fields": {
+        "name": "Motor paso a paso nema 17",
+        "description": "El motor paso a paso nema 17 es un motor de 4 hilos, con un ángulo de paso de 1.8º y una longitud de 40mm. Tiene un par de retención de 40Ncm (56oz.in) y una corriente de 1.7A por fase. Cada fase tiene 6 cables de 20cm de longitud.",
+        "stock": 0,
+        "price": 24.99,
+        "image": "product/motor_paso_a_paso.jpg",
+        "category": 3
+      }
+    },
+  
+    {
+      "model": "product.Product",
+      "pk": 7,
+      "fields": {
+        "name": "Cables de prueba pinza cocodrilo 10 unidades",
+        "description": "Cables de prueba con pinza cocodrilo de 10 colores diferentes. Longitud de 50cm.",
+        "stock": 37,
+        "price": 2.5,
+        "image": "product/cables_prueba.jpg",
+        "category": 4
+      }
+    }
+  ]
